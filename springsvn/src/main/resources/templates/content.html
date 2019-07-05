@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Repozytorium</title>
+    <meta http-equiv="Content-Type" location="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:if="${showMessage == 'REGISTER_OK'}" class="alert alert-success" role="alert">
+    <a th:text="${'Konto użytkownika zostało pomyślnie zarejestrowane.'}"></a>
+    <a th:href="${'/login'}">Teraz możesz się zalogować.</a>
+</div>
+<div th:if="${showMessage == 'REGISTER_EXISTS'}" class="alert alert-warning" role="alert">
+    <a th:text="${'Użytkownik o podanym loginie jest już zarejestrowany. Wybierz inny login.'}"></a>
+</div>
+<div class="container">
+    <form class="form-horizontal" th:object="${location}" th:action="@{/location}" th:method="post">
+
+        <div class="form-group">
+            <label class="control-label">Ścieżka repozytorium</label>
+            <input type="text" class="form-control" th:field="*{path}"/>
+            <p th:if="${#fields.hasErrors('path')}" th:errors="*{path}"/>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Rewizja</label>
+            <input type="text" class="form-control" th:field="*{revision}"/>
+            <p th:if="${#fields.hasErrors('revision')}" th:errors="*{revision}"/>
+        </div>
+
+        <div class="row">
+            <button type="submit" class="btn btn-primary float-left">Przejdź</button>
+        </div>
+    </form>
+    <div class="float-right">
+        <a th:text="${'Ostatnia rewizja: ' + lastRev.id}"></a><br>
+        <a th:text="${'Autor: ' + lastRev.authorId + ' (' + lastRev.authorName + ')'}"></a><br>
+        <a th:text="${'Data: ' + lastRev.date}"></a><br>
+        <a th:text="${'Opis: ' + lastRev.message}"></a><br>
+    </div>
+</div>
+</body>
+</html>
