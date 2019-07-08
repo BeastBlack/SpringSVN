@@ -10,15 +10,8 @@
     <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<div th:if="${showMessage == 'REGISTER_OK'}" class="alert alert-success" role="alert">
-    <a th:text="${'Konto użytkownika zostało pomyślnie zarejestrowane.'}"></a>
-    <a th:href="${'/login'}">Teraz możesz się zalogować.</a>
-</div>
-<div th:if="${showMessage == 'REGISTER_EXISTS'}" class="alert alert-warning" role="alert">
-    <a th:text="${'Użytkownik o podanym loginie jest już zarejestrowany. Wybierz inny login.'}"></a>
-</div>
-<div class="container">
-    <form class="form-horizontal" th:object="${location}" th:action="@{/location}" th:method="post">
+<div class="container-fluid">
+    <form class="form-horizontal" th:object="${location}" th:action="@{/content}" th:method="get">
 
         <div class="form-group">
             <label class="control-label">Ścieżka repozytorium</label>
@@ -41,6 +34,33 @@
         <a th:text="${'Autor: ' + lastRev.authorId + ' (' + lastRev.authorName + ')'}"></a><br>
         <a th:text="${'Data: ' + lastRev.date}"></a><br>
         <a th:text="${'Opis: ' + lastRev.message}"></a><br>
+    </div>
+    <div>
+        <table class="table table-active">
+            <thead class="thead-dark">
+            <th>Ścieżka</th>
+            <th>Rewizja</th>
+            <th>Data zmiany</th>
+            <th>Autor</th>
+            <th>Dane autora</th>
+            <th>Opis</th>
+            <th>Historia</th>
+            </thead>
+            <tbody th:each="entry : ${entryList}">
+            <tr>
+                <td th:if="${location.path != '/' and not entry.isFile}"><strong><a th:text="${entry.name}" th:href="${'/content?path=' + location.path + '/' + entry.name + '&revision=' + entry.lastRevision.id}"></a></strong></td>
+                <td th:if="${location.path == '/' and not entry.isFile}"><strong><a th:text="${entry.name}" th:href="${'/content?path=' + location.path + entry.name + '&revision=' + entry.lastRevision.id}"></a></strong></td>
+                <td th:if="${location.path != '/' and entry.isFile}"><strong><a th:text="${entry.name}"></a></strong></td>
+                <td th:if="${location.path == '/' and entry.isFile}"><strong><a th:text="${entry.name}"></a></strong></td>
+                <td th:text="${entry.lastRevision.id}"></td>
+                <td th:text="${#dates.format(entry.lastRevision.date, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                <td th:text="${entry.lastRevision.authorId}"></td>
+                <td th:text="${entry.lastRevision.authorName}"></td>
+                <td th:text="${entry.lastRevision.message}"></td>
+                <td th:if="${location.path != '/'}"><a th:text="Przeglądaj" th:href="${'/history?path=' + location.path + '/' + entry.name}"></a></td>
+                <td th:if="${location.path == '/'}"><a th:text="Przeglądaj" th:href="${'/history?path=' + location.path + entry.name}"></a></td>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>
