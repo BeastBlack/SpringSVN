@@ -32,7 +32,7 @@
     <div class="float-right">
         <a th:text="${'Ostatnia rewizja: ' + lastRev.id}"></a><br>
         <a th:text="${'Autor: ' + lastRev.authorId + ' (' + lastRev.authorName + ')'}"></a><br>
-        <a th:text="${'Data: ' + lastRev.date}"></a><br>
+        <a th:text="${'Data: ' + #dates.format(lastRev.date, 'dd-MM-yyyy HH:mm:ss')}"></a><br>
         <a th:text="${'Opis: ' + lastRev.message}"></a><br>
     </div>
     <div>
@@ -57,8 +57,8 @@
                 <td th:text="${entry.lastRevision.authorId}"></td>
                 <td th:text="${entry.lastRevision.authorName}"></td>
                 <td th:text="${entry.lastRevision.message}"></td>
-                <td th:if="${location.path != '/'}"><a th:text="Przeglądaj" th:href="${'/history?path=' + location.path + '/' + entry.name}"></a></td>
-                <td th:if="${location.path == '/'}"><a th:text="Przeglądaj" th:href="${'/history?path=' + location.path + entry.name}"></a></td>
+                <td th:if="${location.path != '/'}"><a th:text="Przeglądaj" th:href="${'/history?path=' + location.path + '/' + entry.name + '&revision=' + entry.lastRevision.id}"></a></td>
+                <td th:if="${location.path == '/'}"><a th:text="Przeglądaj" th:href="${'/history?path=' + location.path + entry.name + '&revision=' + entry.lastRevision.id}"></a></td>
             </tbody>
         </table>
     </div>

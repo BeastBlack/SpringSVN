@@ -21,13 +21,16 @@ public class ConfigService {
     @Autowired
     ConfigRepository configRepository;
 
-    private String getValue(String name) {
-        if(configs == null) {
-            configs = new HashMap<>();
+    public void refreshData() {
+        configs = new HashMap<>();
 
-            for(Config config : configRepository.findAll())
-                configs.put(config.getName(), config.getValue());
-        }
+        for(Config config : configRepository.findAll())
+            configs.put(config.getName(), config.getValue());
+    }
+
+    private String getValue(String name) {
+        if(configs == null)
+            refreshData();
 
         return configs.get(name);
     }

@@ -9,15 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tmatesoft.svn.core.*;
 import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
+import org.tmatesoft.svn.core.internal.wc2.ng.SvnDiffGenerator;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
 import org.tmatesoft.svn.core.wc.SVNRevision;
 import org.tmatesoft.svn.core.wc.SVNWCUtil;
-import org.tmatesoft.svn.core.wc2.ISvnObjectReceiver;
-import org.tmatesoft.svn.core.wc2.SvnList;
-import org.tmatesoft.svn.core.wc2.SvnOperationFactory;
-import org.tmatesoft.svn.core.wc2.SvnTarget;
+import org.tmatesoft.svn.core.wc2.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.*;
 
 @Data
@@ -124,6 +124,8 @@ public class SVNUtils {
             for(ContentEntry ce : contentEntries)
                 ce.getLastRevision().setMessage(messages.get(ce.getLastRevision().getId()));
 
+            operationFactory.dispose();
+
             return contentEntries;
         }catch(Exception e) {
             System.out.println(e.getMessage());
@@ -166,54 +168,78 @@ public class SVNUtils {
         return null;
     }
 
-    /*
-    public void test() {
-        System.out.println("STARTING...");
+    public List<Revision> getHistory(String path, Long revision, Long revisionTo, Long revisionMax) {
         try {
-            SVNRepository repository = SVNRepositoryFactory.create(SVNURL.parseURIEncoded(configService.getSvnRepositoryAddress()));
-            ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(configService.getSvnLogin(), configService.getSvnPassword().toCharArray());
-            repository.setAuthenticationManager(authManager);
-
-            long lastRev = repository.getLatestRevision();
-
             SvnOperationFactory operationFactory = new SvnOperationFactory();
-            operationFactory.setAuthenticationManager(repository.getAuthenticationManager());
+
+            if(configService.isBasicAuthentication()) {
+                ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(configService.getSvnLogin(), configService.getSvnPassword().toCharArray());
+                operationFactory.setAuthenticationManager(authManager);
+            }
+
             SvnLog logOperation = operationFactory.createLog();
             logOperation.setSingleTarget(
                     SvnTarget.fromURL(
-                            SVNURL.parseURIEncoded(svnRepositoryAddress)));
+                            SVNURL.parseURIEncoded(getAbsoluteSvnPath(path))));
+            logOperation.setLimit(revisionMax);
+
+            SVNRevision svnRev = revision != null ? SVNRevision.create(revision) : SVNRevision.HEAD;
+            SVNRevision svnRevTo = SVNRevision.create(revisionTo);
+
             logOperation.setRevisionRanges(Collections.singleton(
                     SvnRevisionRange.create(
-                            SVNRevision.create(lastRev - 100),
-                            SVNRevision.HEAD
+                            svnRev,
+                            svnRevTo
                     )
             ) );
 
             Collection<SVNLogEntry> logEntries = logOperation.run( null );
-            System.out.println(">>>>>>>>>>>>>>>>>" + logEntries.size());
+
+            List<Revision> revisionList = new ArrayList<>();
 
             for(SVNLogEntry entry : logEntries) {
-                System.out.println(entry.getAuthor());
+                Revision rev = new Revision();
+                rev.setId(entry.getRevision());
+                rev.setDate(entry.getDate());
+                rev.setAuthorId(entry.getAuthor());
+                rev.setAuthorName(authorService.getAuthorName(entry.getAuthor()));
+                rev.setMessage(entry.getMessage());
+                revisionList.add(rev);
             }
 
-            final SvnList list = operationFactory.createList();
-            list.setDepth(SVNDepth.IMMEDIATES);
-            list.setRevision(SVNRevision.HEAD);
-            list.addTarget(SvnTarget.fromURL(SVNURL.parseURIEncoded(svnRepositoryAddress), SVNRevision.HEAD));
-            list.setReceiver(new ISvnObjectReceiver<SVNDirEntry>() {
-                public void receive(SvnTarget target, SVNDirEntry object) throws SVNException {
-                    final String name = object.getRelativePath();
-                    System.out.println(name);
-                }
-            });
+            operationFactory.dispose();
 
-            list.run();
-
-            repository.closeSession();
-
-            System.out.println("FINISH!...");
+            return revisionList;
         }catch(Exception e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
-    }*/
+
+        return null;
+    }
+
+    public void diff() {
+        final SvnOperationFactory svnOperationFactory = new SvnOperationFactory();
+
+        if(configService.isBasicAuthentication()) {
+            ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(configService.getSvnLogin(), configService.getSvnPassword().toCharArray());
+            svnOperationFactory.setAuthenticationManager(authManager);
+        }
+
+        try {
+            final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            final SvnDiffGenerator diffGenerator = new SvnDiffGenerator();
+            diffGenerator.setBasePath(new File(""));
+
+            final SvnDiff diff = svnOperationFactory.createDiff();
+            diff.setSources(SvnTarget.fromURL(SVNURL.parseURIEncoded(configService.getSvnRepositoryAddress()), SVNRevision.HEAD), SvnTarget.fromURL(SVNURL.parseURIEncoded(configService.getSvnRepositoryAddress()), SVNRevision.create(75883)));
+            diff.setDiffGenerator(diffGenerator);
+            diff.setOutput(byteArrayOutputStream);
+            diff.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            svnOperationFactory.dispose();
+        }
+    }
 }

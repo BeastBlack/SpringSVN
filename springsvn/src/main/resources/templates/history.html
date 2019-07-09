@@ -10,8 +10,8 @@
     <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<div class="container">
-    <form class="form-horizontal" th:object="${location}" th:action="@{/location}" th:method="post">
+<div class="container-fluid">
+    <form class="form-horizontal" th:object="${location}" th:action="@{/history}" th:method="get">
 
         <div class="form-group">
             <label class="control-label">Ścieżka repozytorium</label>
@@ -20,36 +20,49 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label">Rewizja</label>
+            <label class="control-label">Rewizja OD</label>
             <input type="text" class="form-control" th:field="*{revision}"/>
             <p th:if="${#fields.hasErrors('revision')}" th:errors="*{revision}"/>
         </div>
 
-        <div class="row">
+        <div class="form-group">
+            <label class="control-label">Rewizja DO</label>
+            <input type="text" class="form-control" th:field="*{revisionTo}"/>
+            <p th:if="${#fields.hasErrors('revisionTo')}" th:errors="*{revisionTo}"/>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Max. liczba prezentowanych rewizji</label>
+            <input type="text" class="form-control" th:field="*{revisionMax}"/>
+            <p th:if="${#fields.hasErrors('revisionMax')}" th:errors="*{revisionMax}"/>
+        </div>
+
+        <div>
             <button type="submit" class="btn btn-primary float-left">Przejdź</button>
         </div>
+        <div>
+            <a class="btn btn-secondary float-left" th:text="Powrót" th:href="${'/content?path=' + location.path + '&revision=' + location.revision}"></a>
+        </div>
     </form>
-    <div>
-        <table class="table">
-            <thead class="thead-dark">
-            <th>Rewizja</th>
-            <th>Data zmiany</th>
-            <th>Autor</th>
-            <th>Dane autora</th>
-            <th>Opis</th>
-            <th>Zmienione pliki</th>
-            </thead>
-            <tbody th:each="revision : ${revisionList}">
-            <tr>
-                <td th:text="${revision.id}"></td>
-                <td th:text="${revision.date}"></td>
-                <td th:text="${revision.authorId}"></td>
-                <td th:text="${revision.authorName}"></td>
-                <td th:text="${revision.message}"></td>
-                <td><a th:text="Przeglądaj" th:href="${'/files?revision=' + revision.id}"></a></td>
-            </tbody>
-        </table>
-    </div>
+    <table class="table table-active">
+        <thead class="thead-dark">
+        <th>Rewizja</th>
+        <th>Data zmiany</th>
+        <th>Autor</th>
+        <th>Dane autora</th>
+        <th>Opis</th>
+        <th>Zmienione pliki</th>
+        </thead>
+        <tbody th:each="revision : ${revisionList}">
+        <tr>
+            <td th:text="${revision.id}"></td>
+            <td th:text="${#dates.format(revision.date, 'dd-MM-yyyy HH:mm:ss')}"></td>
+            <td th:text="${revision.authorId}"></td>
+            <td th:text="${revision.authorName}"></td>
+            <td th:text="${revision.message}"></td>
+            <td><a th:text="Przeglądaj" th:href="${'/files?revision=' + revision.id}"></a></td>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
