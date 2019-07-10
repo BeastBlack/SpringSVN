@@ -17,6 +17,9 @@ public class HistoryService {
         if(path == null)
             path = "/";
 
+        if(path.equals(""))
+            path = "/";
+
         if(revision == null)
             revision = svnUtils.getRevisionData(null).getId();
 

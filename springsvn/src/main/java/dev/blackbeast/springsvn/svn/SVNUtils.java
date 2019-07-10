@@ -69,7 +69,9 @@ public class SVNUtils {
         if(path == null || path.equals("/"))
             return configService.getSvnRepositoryAddress();
         else
-            return configService.getSvnRepositoryAddress() + path;
+            return path.startsWith("/") ?
+                    configService.getSvnRepositoryAddress() + path :
+                    configService.getSvnRepositoryAddress() + "/" + path;
     }
 
     public List<ContentEntry> getContent(String path, Long revision) {
@@ -218,7 +220,7 @@ public class SVNUtils {
         return null;
     }
 
-    public void diff() {
+    public String diff(String path, Long revision, Long revisionTo) {
         final SvnOperationFactory svnOperationFactory = new SvnOperationFactory();
 
         if(configService.isBasicAuthentication()) {
@@ -232,14 +234,18 @@ public class SVNUtils {
             diffGenerator.setBasePath(new File(""));
 
             final SvnDiff diff = svnOperationFactory.createDiff();
-            diff.setSources(SvnTarget.fromURL(SVNURL.parseURIEncoded(configService.getSvnRepositoryAddress()), SVNRevision.HEAD), SvnTarget.fromURL(SVNURL.parseURIEncoded(configService.getSvnRepositoryAddress()), SVNRevision.create(75883)));
+            diff.setSources(SvnTarget.fromURL(SVNURL.parseURIEncoded(getAbsoluteSvnPath(path)), SVNRevision.create(revision)), SvnTarget.fromURL(SVNURL.parseURIEncoded(getAbsoluteSvnPath(path)), SVNRevision.create(revisionTo)));
             diff.setDiffGenerator(diffGenerator);
             diff.setOutput(byteArrayOutputStream);
             diff.run();
+
+            return byteArrayOutputStream.toString("UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             svnOperationFactory.dispose();
         }
+
+        return null;
     }
 }

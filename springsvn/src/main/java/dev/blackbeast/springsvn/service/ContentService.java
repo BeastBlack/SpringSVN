@@ -21,6 +21,9 @@ public class ContentService {
         if(path == null)
             path = "/";
 
+        if(path.equals(""))
+            path = "/";
+
         return new Location(path, revision);
     }
 

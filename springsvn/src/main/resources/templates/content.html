@@ -25,8 +25,17 @@
             <p th:if="${#fields.hasErrors('revision')}" th:errors="*{revision}"/>
         </div>
 
-        <div class="row">
+        <div>
             <button type="submit" class="btn btn-primary float-left">Przejdź</button>
+        </div>
+        <div th:if="${location.path != '' and location.path != '/'}">
+            <a class="btn btn-info float-left" th:text="${'Katalog nadrzędny'}" th:href="${'/content?path=' + location.parentPath + '&revision=' + location.revision}"></a>
+        </div>
+        <div th:if="${location.path != '' and location.path != '/'}">
+            <a class="btn btn-success float-left" th:text="${'Katalog główny (root)'}" th:href="${'/content?path=/&revision=' + location.revision}"></a>
+        </div>
+        <div>
+            <a class="btn btn-warning float-left" th:text="${'Najnowsza rewizja (HEAD)'}" th:href="${'/content?path=' + location.path}"></a>
         </div>
     </form>
     <div class="float-right">
@@ -48,8 +57,8 @@
             </thead>
             <tbody th:each="entry : ${entryList}">
             <tr>
-                <td th:if="${location.path != '/' and not entry.isFile}"><strong><a th:text="${entry.name}" th:href="${'/content?path=' + location.path + '/' + entry.name + '&revision=' + entry.lastRevision.id}"></a></strong></td>
-                <td th:if="${location.path == '/' and not entry.isFile}"><strong><a th:text="${entry.name}" th:href="${'/content?path=' + location.path + entry.name + '&revision=' + entry.lastRevision.id}"></a></strong></td>
+                <td th:if="${location.path != '/' and not entry.isFile}"><strong><a th:text="${entry.name}" th:href="${'/content?path=' + location.path + '/' + entry.name + '&revision=' + location.revision}"></a></strong></td>
+                <td th:if="${location.path == '/' and not entry.isFile}"><strong><a th:text="${entry.name}" th:href="${'/content?path=' + location.path + entry.name + '&revision=' + location.revision}"></a></strong></td>
                 <td th:if="${location.path != '/' and entry.isFile}"><strong><a th:text="${entry.name}"></a></strong></td>
                 <td th:if="${location.path == '/' and entry.isFile}"><strong><a th:text="${entry.name}"></a></strong></td>
                 <td th:text="${entry.lastRevision.id}"></td>
@@ -57,8 +66,8 @@
                 <td th:text="${entry.lastRevision.authorId}"></td>
                 <td th:text="${entry.lastRevision.authorName}"></td>
                 <td th:text="${entry.lastRevision.message}"></td>
-                <td th:if="${location.path != '/'}"><a th:text="Przeglądaj" th:href="${'/history?path=' + location.path + '/' + entry.name + '&revision=' + entry.lastRevision.id}"></a></td>
-                <td th:if="${location.path == '/'}"><a th:text="Przeglądaj" th:href="${'/history?path=' + location.path + entry.name + '&revision=' + entry.lastRevision.id}"></a></td>
+                <td th:if="${location.path != '/'}"><a th:text="Przeglądaj" th:href="${'/history?path=' + location.path + '/' + entry.name + '&revision=' + location.revision}"></a></td>
+                <td th:if="${location.path == '/'}"><a th:text="Przeglądaj" th:href="${'/history?path=' + location.path + entry.name + '&revision=' + location.revision}"></a></td>
             </tbody>
         </table>
     </div>

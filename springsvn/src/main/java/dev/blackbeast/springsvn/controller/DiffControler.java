@@ -1,8 +1,8 @@
 package dev.blackbeast.springsvn.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import dev.blackbeast.springsvn.domain.Location;
-import dev.blackbeast.springsvn.domain.Revision;
-import dev.blackbeast.springsvn.service.HistoryService;
+import dev.blackbeast.springsvn.service.DiffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,27 +13,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-public class HistoryController {
+public class DiffControler {
 
     @Autowired
-    HistoryService historyService;
+    DiffService diffService;
 
-    @RequestMapping(value = "/history", method = RequestMethod.GET)
+    @RequestMapping(value = "/diff", method = RequestMethod.GET)
     public String showHistory(@RequestParam(value = "path", required = false) String path,
                               @RequestParam(value = "revision", required = false) Long revision,
                               @RequestParam(value = "revisionTo", required = false) Long revisionTo,
-                              @RequestParam(value = "revisionMax", required = false) Long revisionMax,
+                              @RequestParam(value = "details", required = false) Boolean details,
                               Model model) {
-        Location location = historyService.getLocation(path, revision, revisionTo, revisionMax);
-        List<Revision> revisionList = historyService.getHistory(
+
+        Location location = diffService.getLocation(path, revision, revisionTo);
+        String diff = diffService.getDiff(
                 location.getPath(),
                 location.getRevision(),
-                location.getRevisionTo(),
-                location.getRevisionMax()
+                location.getRevisionTo()
         );
+        List<String> fileList = diffService.getFileList(diff);
 
         model.addAttribute("location", location);
-        model.addAttribute("revisionList", revisionList);
-        return "history";
+        model.addAttribute("fileList", fileList);
+
+        if(details != null)
+            if(details)
+                model.addAttribute("diff", diff);
+
+        return "diff";
     }
 }
