@@ -1,6 +1,5 @@
 package dev.blackbeast.springsvn.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import dev.blackbeast.springsvn.domain.Location;
 import dev.blackbeast.springsvn.service.DiffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,8 @@ public class DiffControler {
                               @RequestParam(value = "revision", required = false) Long revision,
                               @RequestParam(value = "revisionTo", required = false) Long revisionTo,
                               @RequestParam(value = "details", required = false) Boolean details,
+                              @RequestParam(value = "sort", required = false) String sort,
+                              @RequestParam (value = "order", required = false) String order,
                               Model model) {
 
         Location location = diffService.getLocation(path, revision, revisionTo);
@@ -31,7 +32,7 @@ public class DiffControler {
                 location.getRevision(),
                 location.getRevisionTo()
         );
-        List<String> fileList = diffService.getFileList(diff);
+        List<String> fileList = diffService.getFileList(diff, sort, order);
 
         model.addAttribute("location", location);
         model.addAttribute("fileList", fileList);
@@ -39,6 +40,9 @@ public class DiffControler {
         if(details != null)
             if(details)
                 model.addAttribute("diff", diff);
+
+        model.addAttribute("sort", sort != null ? sort : "none");
+        model.addAttribute("order", order != null ? order : "none");
 
         return "diff";
     }

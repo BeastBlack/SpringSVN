@@ -23,17 +23,23 @@ public class HistoryController {
                               @RequestParam(value = "revision", required = false) Long revision,
                               @RequestParam(value = "revisionTo", required = false) Long revisionTo,
                               @RequestParam(value = "revisionMax", required = false) Long revisionMax,
+                              @RequestParam(value = "sort", required = false) String sort,
+                              @RequestParam (value = "order", required = false) String order,
                               Model model) {
         Location location = historyService.getLocation(path, revision, revisionTo, revisionMax);
         List<Revision> revisionList = historyService.getHistory(
                 location.getPath(),
                 location.getRevision(),
                 location.getRevisionTo(),
-                location.getRevisionMax()
+                location.getRevisionMax(),
+                sort,
+                order
         );
 
         model.addAttribute("location", location);
         model.addAttribute("revisionList", revisionList);
+        model.addAttribute("sort", sort != null ? sort : "none");
+        model.addAttribute("order", order != null ? order : "none");
         return "history";
     }
 }

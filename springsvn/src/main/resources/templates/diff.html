@@ -35,7 +35,7 @@
             <button type="submit" class="btn btn-primary float-left">Porównaj</button>
         </div>
         <div>
-            <a class="btn btn-info float-left" th:text="Szczegóły" th:href="${'/diff?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&details=true'}"></a>
+            <a class="btn btn-info float-left" th:text="Szczegóły" th:href="${'/diff?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&details=true' + '&sort=' + sort + '&order=' + order}"></a>
         </div>
         <div>
             <a class="btn btn-secondary float-left" th:text="Powrót" th:href="${'/history?path=' + location.path + '&revision=' + location.revision}"></a>
@@ -43,7 +43,7 @@
     </form>
     <table class="table table-active">
         <thead class="thead-dark">
-            <th>Plik</th>
+        <th><a th:text="${'Plik'}" th:href="${'/diff?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&sort=name' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
         </thead>
         <tbody th:each="file : ${fileList}">
         <tr>

@@ -27,15 +27,19 @@ public class ContentController {
     @RequestMapping(value = "/content", method = RequestMethod.GET)
     public String showContent(@RequestParam(value = "path", required = false) String path,
                             @RequestParam(value = "revision", required = false) Long revision,
+                            @RequestParam(value = "sort", required = false) String sort,
+                            @RequestParam (value = "order", required = false) String order,
                             Model model) {
         Revision lastRevision = contentService.getRevisionData(revision);
         Location location = contentService.getLocation(path, lastRevision.getId());
 
-        List<ContentEntry> contentEntries = contentService.getContent(path, revision);
+        List<ContentEntry> contentEntries = contentService.getContent(path, revision, sort, order);
 
         model.addAttribute("location", location);
         model.addAttribute("lastRev", lastRevision);
         model.addAttribute("entryList", contentEntries);
+        model.addAttribute("sort", sort != null ? sort : "none");
+        model.addAttribute("order", order != null ? order : "none");
         return "content";
     }
 }

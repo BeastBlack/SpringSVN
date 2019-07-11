@@ -40,17 +40,26 @@
         <div>
             <button type="submit" class="btn btn-primary float-left">Przejdź</button>
         </div>
+        <div th:if="${location.path != '' and location.path != '/'}">
+            <a class="btn btn-info float-left" th:text="${'Katalog nadrzędny'}" th:href="${'/history?path=' + location.parentPath + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=' + sort + '&order=' + order}"></a>
+        </div>
+        <div th:if="${location.path != '' and location.path != '/'}">
+            <a class="btn btn-success float-left" th:text="${'Katalog główny (root)'}" th:href="${'/history?path=/&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=' + sort + '&order=' + order}"></a>
+        </div>
+        <div>
+            <a class="btn btn-warning float-left" th:text="${'Najnowsza rewizja (HEAD)'}" th:href="${'/history?path=' + location.path + '&revisionMax=' + location.revisionMax + '&sort=' + sort + '&order=' + order}"></a>
+        </div>
         <div>
             <a class="btn btn-secondary float-left" th:text="Powrót" th:href="${'/content?path=' + location.path + '&revision=' + location.revision}"></a>
         </div>
     </form>
     <table class="table table-active">
         <thead class="thead-dark">
-        <th>Rewizja</th>
-        <th>Data zmiany</th>
-        <th>Autor</th>
-        <th>Dane autora</th>
-        <th>Opis</th>
+        <th><a th:text="${'Rewizja'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=revision' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+        <th><a th:text="${'Data zmiany'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=date' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+        <th><a th:text="${'Autor'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=authorId' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+        <th><a th:text="${'Dane autora'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=authorName' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+        <th><a th:text="${'Opis'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=message' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
         <th>Wprowadzone zmiany</th>
         </thead>
         <tbody th:each="revision : ${revisionList}">
