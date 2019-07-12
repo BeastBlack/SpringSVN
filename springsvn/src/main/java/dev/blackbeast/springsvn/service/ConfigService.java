@@ -67,6 +67,8 @@ public class ConfigService {
     }
 
     public void saveConfiguration(ConfigDto config) {
+        configRepository.deleteAll();
+
         Config conf = new Config();
         conf.setName(CONFIG_SVN_REPOSITORY_ADDRESS);
         conf.setValue(config.getSvnRepositoryAddress());

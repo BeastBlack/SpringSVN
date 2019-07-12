@@ -26,9 +26,16 @@ public class ContentController {
                             @RequestParam (value = "order", required = false) String order,
                             Model model) {
         Revision lastRevision = contentService.getRevisionData(revision);
+
+        if(lastRevision == null)
+            return "redirect:/config?message=svn_exception";
+
         Location location = contentService.getLocation(path, lastRevision.getId());
 
         List<ContentEntry> contentEntries = contentService.getContent(path, revision, sort, order);
+
+        if(contentEntries == null)
+            return "redirect:/config?message=svn_exception";
 
         model.addAttribute("location", location);
         model.addAttribute("lastRev", lastRevision);

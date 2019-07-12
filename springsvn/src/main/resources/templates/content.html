@@ -59,27 +59,27 @@
     <div>
         <table class="table table-active">
             <thead class="thead-dark">
-            <th><a class="btn btn-dark" th:text="${'Ścieżka'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=name' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-            <th><a class="btn btn-dark" th:text="${'Rewizja'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=revision' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-            <th><a class="btn btn-dark" th:text="${'Data zmiany'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=date' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-            <th><a class="btn btn-dark" th:text="${'Autor'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=authorId' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-            <th><a class="btn btn-dark" th:text="${'Dane autora'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=authorName' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-            <th><a class="btn btn-dark" th:text="${'Opis'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=message' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-            <th><a class="btn btn-dark" th:text="${'Historia'}"></a></th>
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Ścieżka'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=name' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Rewizja'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=revision' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Data zmiany'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=date' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Autor'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=authorId' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Dane autora'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=authorName' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Opis'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=message' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Historia'}"></a></th>
             </thead>
             <tbody th:each="entry : ${entryList}">
             <tr>
-                <td th:if="${location.path != '/' and not entry.isFile}"><strong><a th:text="${entry.name}" th:href="${'/content?path=' + location.path + '/' + entry.name + '&revision=' + location.revision + '&sort=' + sort + '&order=' + order}"></a></strong></td>
-                <td th:if="${location.path == '/' and not entry.isFile}"><strong><a th:text="${entry.name}" th:href="${'/content?path=' + location.path + entry.name + '&revision=' + location.revision + '&sort=' + sort + '&order=' + order}"></a></strong></td>
-                <td th:if="${location.path != '/' and entry.isFile}"><strong><a th:text="${entry.name}"></a></strong></td>
-                <td th:if="${location.path == '/' and entry.isFile}"><strong><a th:text="${entry.name}"></a></strong></td>
-                <td th:text="${entry.lastRevision.id}"></td>
-                <td th:text="${#dates.format(entry.lastRevision.date, 'dd-MM-yyyy HH:mm:ss')}"></td>
-                <td th:text="${entry.lastRevision.authorId}"></td>
-                <td th:text="${entry.lastRevision.authorName}"></td>
-                <td th:text="${entry.lastRevision.message}"></td>
-                <td th:if="${location.path != '/'}"><a class="btn btn-link" th:text="Przeglądaj" th:href="${'/history?path=' + location.path + '/' + entry.name + '&revision=' + location.revision}"></a></td>
-                <td th:if="${location.path == '/'}"><a class="btn btn-link" th:text="Przeglądaj" th:href="${'/history?path=' + location.path + entry.name + '&revision=' + location.revision}"></a></td>
+                <td style="vertical-align: middle;" th:if="${location.path != '/' and not entry.isFile}"><strong><a th:text="${entry.name}" th:href="${'/content?path=' + location.path + '/' + entry.name + '&revision=' + location.revision + '&sort=' + sort + '&order=' + order}"></a></strong></td>
+                <td style="vertical-align: middle;" th:if="${location.path == '/' and not entry.isFile}"><strong><a th:text="${entry.name}" th:href="${'/content?path=' + location.path + entry.name + '&revision=' + location.revision + '&sort=' + sort + '&order=' + order}"></a></strong></td>
+                <td style="vertical-align: middle;" th:if="${location.path != '/' and entry.isFile}"><strong><a th:text="${entry.name}"></a></strong></td>
+                <td style="vertical-align: middle;" th:if="${location.path == '/' and entry.isFile}"><strong><a th:text="${entry.name}"></a></strong></td>
+                <td style="vertical-align: middle;" th:text="${entry.lastRevision.id}"></td>
+                <td style="vertical-align: middle;" th:text="${#dates.format(entry.lastRevision.date, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                <td style="vertical-align: middle;" th:text="${entry.lastRevision.authorId}"></td>
+                <td style="vertical-align: middle;" th:text="${entry.lastRevision.authorName}"></td>
+                <td style="vertical-align: middle;" th:text="${entry.lastRevision.message}"></td>
+                <td th:if="${location.path != '/'}"><a class="btn btn-secondary" th:text="Przeglądaj" th:href="${'/history?path=' + location.path + '/' + entry.name + '&revision=' + location.revision}"></a></td>
+                <td th:if="${location.path == '/'}"><a class="btn btn-secondary" th:text="Przeglądaj" th:href="${'/history?path=' + location.path + entry.name + '&revision=' + location.revision}"></a></td>
             </tbody>
         </table>
     </div>

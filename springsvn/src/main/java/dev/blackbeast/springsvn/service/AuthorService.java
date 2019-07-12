@@ -5,6 +5,7 @@ import dev.blackbeast.springsvn.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,9 @@ public class AuthorService {
     }
 
     public List<Author> getAuthors() {
-        return authorRepository.findAll();
+        List<Author> authors = authorRepository.findAll();
+        authors.sort(Comparator.comparing(Author::getAuthorId));
+        return authors;
     }
 
     public void delete(Long id) {

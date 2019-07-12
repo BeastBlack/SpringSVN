@@ -43,7 +43,7 @@ public class ContentService {
     public List<ContentEntry> getContent(String path, Long revision, String sort, String order) {
         List<ContentEntry> contentEntries = svnUtils.getContent(path, revision);
 
-        if(sort != null){
+        if(contentEntries != null && sort != null){
             if(sort.equals(SORT_NAME)) {
                 contentEntries.sort(ORDER_ASC.equals(order) ?
                         Comparator.comparing(ContentEntry::getName).reversed() :

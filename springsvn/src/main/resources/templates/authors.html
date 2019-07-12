@@ -32,8 +32,8 @@
         </thead>
         <tbody th:each="author : ${authors}">
         <tr>
-            <td th:text=${author.authorId}></td>
-            <td th:text=${author.authorName}></td>
+            <td style="vertical-align: middle; font-weight: bold;" th:text=${author.authorId}></td>
+            <td style="vertical-align: middle;" th:text=${author.authorName}></td>
             <td><a class="btn btn-info" th:href="${'/authors/edit/' + author.id}">Edytuj</a></td>
             <td><a class="btn btn-danger" th:href="${'/authors/delete/' + author.id}">Usuń</a></td>
         </tr>

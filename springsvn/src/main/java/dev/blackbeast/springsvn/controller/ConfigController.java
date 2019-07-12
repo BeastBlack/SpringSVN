@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -30,10 +31,15 @@ public class ConfigController {
     }
 
     @RequestMapping(value = "/config", method = RequestMethod.GET)
-    public String config(Model model) {
+    public String config(Model model,
+                         @RequestParam(value = "message", required = false) String message) {
         ConfigDto config = configService.getConfiguration();
 
         model.addAttribute("config", config);
+
+        if(message != null)
+            model.addAttribute("message", message);
+
         return "config";
     }
 
