@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -28,5 +29,26 @@ public class AuthorService {
 
         String authorName = authors.get(authorId);
         return authorName != null ? authorName : "N/A";
+    }
+
+    public List<Author> getAuthors() {
+        return authorRepository.findAll();
+    }
+
+    public void delete(Long id) {
+        authorRepository.delete(authorRepository.getOne(id));
+    }
+
+    public Author get(Long id) {
+        return authorRepository.getOne(id);
+    }
+
+    public Boolean exists(String authorId) {
+        return !authorRepository.findAllByAuthorId(authorId).isEmpty();
+    }
+
+    public void save(Author author) {
+        authorRepository.save(author);
+        refresh();
     }
 }

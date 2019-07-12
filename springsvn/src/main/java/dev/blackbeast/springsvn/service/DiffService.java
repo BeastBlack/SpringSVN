@@ -1,7 +1,6 @@
 package dev.blackbeast.springsvn.service;
 
 import dev.blackbeast.springsvn.domain.Location;
-import dev.blackbeast.springsvn.domain.Revision;
 import dev.blackbeast.springsvn.svn.SVNUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

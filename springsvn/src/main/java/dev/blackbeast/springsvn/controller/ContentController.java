@@ -19,11 +19,6 @@ public class ContentController {
     @Autowired
     ContentService contentService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String redirect() {
-        return "redirect:/content";
-    }
-
     @RequestMapping(value = "/content", method = RequestMethod.GET)
     public String showContent(@RequestParam(value = "path", required = false) String path,
                             @RequestParam(value = "revision", required = false) Long revision,

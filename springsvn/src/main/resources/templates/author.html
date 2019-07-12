@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Repozytorium</title>
+    <meta http-equiv="Content-Type" location="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="float-right">
+        <a class = "btn btn-info" th:text="${'Powrót'}" th:href="${'/authors'}"></a>
+    </div>
+    <br>
+</div>
+<div class="container-fluid">
+    <form class="form-horizontal" th:object="${author}" th:action="@{/authors}" th:method="post">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-group">
+            <label class="control-label">Identyfikator autora:</label>
+            <input type="text" class="form-control" th:field="*{authorId}" th:if="${id != null}" readonly/>
+            <input type="text" class="form-control" th:field="*{authorId}" th:if="${id == null}"/>
+            <p th:if="${#fields.hasErrors('authorId')}" th:errors="*{authorId}"/>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Nazwa autora:</label>
+            <input type="text" class="form-control" th:field="*{authorName}" autocomplete="off"/>
+            <p th:if="${#fields.hasErrors('authorName')}" th:errors="*{authorName}"/>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary float-left">Zapisz</button>
+        </div>
+        <div>
+            <a class="btn btn-info float-left" th:text="${'Powrót'}" th:href="${'/authors'}"></a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

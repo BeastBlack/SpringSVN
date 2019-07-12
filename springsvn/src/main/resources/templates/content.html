@@ -11,6 +11,15 @@
 </head>
 <body>
 <div class="container-fluid">
+    <div class="float-right">
+        <a class = "btn btn-info" th:text="${'Zarządzaj autorami'}" th:href="${'/authors'}"></a>
+    </div>
+    <div class="float-right">
+        <a class = "btn btn-success" th:text="${'Konfiguracja aplikacji'}" th:href="${'/config'}"></a>
+    </div>
+    <br>
+</div>
+<div class="container-fluid">
     <form class="form-horizontal" th:object="${location}" th:action="@{/content}" th:method="get">
 
         <div class="form-group">
@@ -28,11 +37,14 @@
         <div>
             <button type="submit" class="btn btn-primary float-left">Przejdź</button>
         </div>
+        <div>
+            <a class="btn btn-success float-left" th:text="${'Historia'}" th:href="${'/history?path=' + location.path  + '&revision=' + location.revision}"></a>
+        </div>
         <div th:if="${location.path != '' and location.path != '/'}">
             <a class="btn btn-info float-left" th:text="${'Katalog nadrzędny'}" th:href="${'/content?path=' + location.parentPath + '&revision=' + location.revision + '&sort=' + sort + '&order=' + order}"></a>
         </div>
         <div th:if="${location.path != '' and location.path != '/'}">
-            <a class="btn btn-success float-left" th:text="${'Katalog główny (root)'}" th:href="${'/content?path=/&revision=' + location.revision  + '&sort=' + sort + '&order=' + order}"></a>
+            <a class="btn btn-danger float-left" th:text="${'Katalog główny (root)'}" th:href="${'/content?path=/&revision=' + location.revision  + '&sort=' + sort + '&order=' + order}"></a>
         </div>
         <div>
             <a class="btn btn-warning float-left" th:text="${'Najnowsza rewizja (HEAD)'}" th:href="${'/content?path=' + location.path  + '&sort=' + sort + '&order=' + order}"></a>
@@ -47,13 +59,13 @@
     <div>
         <table class="table table-active">
             <thead class="thead-dark">
-            <th><a th:text="${'Ścieżka'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=name' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-            <th><a th:text="${'Rewizja'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=revision' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-            <th><a th:text="${'Data zmiany'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=date' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-            <th><a th:text="${'Autor'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=authorId' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-            <th><a th:text="${'Dane autora'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=authorName' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-            <th><a th:text="${'Opis'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=message' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-            <th>Historia</th>
+            <th><a class="btn btn-dark" th:text="${'Ścieżka'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=name' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" th:text="${'Rewizja'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=revision' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" th:text="${'Data zmiany'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=date' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" th:text="${'Autor'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=authorId' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" th:text="${'Dane autora'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=authorName' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" th:text="${'Opis'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision + '&sort=message' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" th:text="${'Historia'}"></a></th>
             </thead>
             <tbody th:each="entry : ${entryList}">
             <tr>
@@ -66,8 +78,8 @@
                 <td th:text="${entry.lastRevision.authorId}"></td>
                 <td th:text="${entry.lastRevision.authorName}"></td>
                 <td th:text="${entry.lastRevision.message}"></td>
-                <td th:if="${location.path != '/'}"><a th:text="Przeglądaj" th:href="${'/history?path=' + location.path + '/' + entry.name + '&revision=' + location.revision}"></a></td>
-                <td th:if="${location.path == '/'}"><a th:text="Przeglądaj" th:href="${'/history?path=' + location.path + entry.name + '&revision=' + location.revision}"></a></td>
+                <td th:if="${location.path != '/'}"><a class="btn btn-link" th:text="Przeglądaj" th:href="${'/history?path=' + location.path + '/' + entry.name + '&revision=' + location.revision}"></a></td>
+                <td th:if="${location.path == '/'}"><a class="btn btn-link" th:text="Przeglądaj" th:href="${'/history?path=' + location.path + entry.name + '&revision=' + location.revision}"></a></td>
             </tbody>
         </table>
     </div>

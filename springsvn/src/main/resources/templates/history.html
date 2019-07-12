@@ -55,12 +55,12 @@
     </form>
     <table class="table table-active">
         <thead class="thead-dark">
-        <th><a th:text="${'Rewizja'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=revision' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-        <th><a th:text="${'Data zmiany'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=date' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-        <th><a th:text="${'Autor'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=authorId' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-        <th><a th:text="${'Dane autora'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=authorName' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-        <th><a th:text="${'Opis'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=message' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-        <th>Wprowadzone zmiany</th>
+        <th><a class="btn btn-dark" th:text="${'Rewizja'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=revision' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+        <th><a class="btn btn-dark" th:text="${'Data zmiany'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=date' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+        <th><a class="btn btn-dark" th:text="${'Autor'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=authorId' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+        <th><a class="btn btn-dark" th:text="${'Dane autora'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=authorName' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+        <th><a class="btn btn-dark" th:text="${'Opis'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=message' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+        <th><a class="btn btn-dark" th:text="${'Wprowadzone zmiany'}"></a></th>
         </thead>
         <tbody th:each="revision : ${revisionList}">
         <tr>

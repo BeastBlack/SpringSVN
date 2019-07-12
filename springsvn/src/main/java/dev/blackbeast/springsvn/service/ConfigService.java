@@ -1,6 +1,8 @@
 package dev.blackbeast.springsvn.service;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import dev.blackbeast.springsvn.domain.Config;
+import dev.blackbeast.springsvn.dto.ConfigDto;
 import dev.blackbeast.springsvn.repository.ConfigRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ public class ConfigService {
     private final static String CONFIG_SVN_PASSWORD = "SvnPassword";
     private final static String CONFIG_SVN_AUTHENTICATION = "SvnAuthentication";
     private final static String CONFIG_SVN_AUTH_BASIC = "basic";
+    private final static String CONFIG_SVN_AUTH_NONE = "none";
 
     @Autowired
     ConfigRepository configRepository;
@@ -48,6 +51,42 @@ public class ConfigService {
     }
 
     public Boolean isBasicAuthentication() {
-        return getValue(CONFIG_SVN_AUTHENTICATION).toLowerCase().equals(CONFIG_SVN_AUTH_BASIC);
+        String authentication = getValue(CONFIG_SVN_AUTHENTICATION);
+
+        return authentication != null ? authentication.toLowerCase().equals(CONFIG_SVN_AUTH_BASIC) : Boolean.FALSE;
+    }
+
+    public ConfigDto getConfiguration() {
+        ConfigDto configDto = new ConfigDto();
+        configDto.setSvnRepositoryAddress(this.getSvnRepositoryAddress());
+        configDto.setSvnLogin(this.getSvnLogin());
+        configDto.setSvnPassword(this.getSvnPassword());
+        configDto.setSvnAuthentication(this.isBasicAuthentication());
+
+        return configDto;
+    }
+
+    public void saveConfiguration(ConfigDto config) {
+        Config conf = new Config();
+        conf.setName(CONFIG_SVN_REPOSITORY_ADDRESS);
+        conf.setValue(config.getSvnRepositoryAddress());
+        configRepository.save(conf);
+
+        conf = new Config();
+        conf.setName(CONFIG_SVN_AUTHENTICATION);
+        conf.setValue(config.getSvnAuthentication() ? CONFIG_SVN_AUTH_BASIC : CONFIG_SVN_AUTH_NONE);
+        configRepository.save(conf);
+
+        conf = new Config();
+        conf.setName(CONFIG_SVN_LOGIN);
+        conf.setValue(config.getSvnLogin());
+        configRepository.save(conf);
+
+        conf = new Config();
+        conf.setName(CONFIG_SVN_PASSWORD);
+        conf.setValue(config.getSvnPassword());
+        configRepository.save(conf);
+
+        refreshData();
     }
 }
