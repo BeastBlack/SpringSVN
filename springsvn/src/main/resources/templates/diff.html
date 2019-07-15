@@ -38,7 +38,7 @@
             <a class="btn btn-info float-left" th:text="Szczegóły" th:href="${'/diff?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&details=true' + '&sort=' + sort + '&order=' + order}"></a>
         </div>
         <div>
-            <a class="btn btn-secondary float-left" th:text="Powrót" th:href="${'/history?path=' + location.path + '&revision=' + location.revision}"></a>
+            <a class="btn btn-secondary float-left" th:text="${'Powrót do historii zmian'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision}"></a>
         </div>
     </form>
     <table class="table table-active">

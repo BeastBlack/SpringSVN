@@ -53,7 +53,7 @@ public class HistoryService {
 
         List<Revision> history = svnUtils.getHistory(path, revision, revisionTo, revisionMax);
 
-        if(sort != null) {
+        if(history != null && sort != null) {
             if (sort.equals(SORT_REVISION)) {
                 history.sort(ORDER_DESC.equals(order) ?
                         Comparator.comparing(Revision::getId).reversed() :

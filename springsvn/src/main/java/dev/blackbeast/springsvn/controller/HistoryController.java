@@ -36,6 +36,9 @@ public class HistoryController {
                 order
         );
 
+        if(revisionList == null)
+            return "redirect:/config?message=svn_exception";
+
         model.addAttribute("location", location);
         model.addAttribute("revisionList", revisionList);
         model.addAttribute("sort", sort != null ? sort : "none");

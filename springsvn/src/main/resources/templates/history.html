@@ -50,7 +50,7 @@
             <a class="btn btn-warning float-left" th:text="${'Najnowsza rewizja (HEAD)'}" th:href="${'/history?path=' + location.path + '&revisionMax=' + location.revisionMax + '&sort=' + sort + '&order=' + order}"></a>
         </div>
         <div>
-            <a class="btn btn-secondary float-left" th:text="Powrót" th:href="${'/content?path=' + location.path + '&revision=' + location.revision}"></a>
+            <a class="btn btn-secondary float-left" th:text="${'Powrót do repozytorium'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision}"></a>
         </div>
     </form>
     <table class="table table-active">

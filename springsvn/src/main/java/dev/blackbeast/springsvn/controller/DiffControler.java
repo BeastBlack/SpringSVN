@@ -32,6 +32,10 @@ public class DiffControler {
                 location.getRevision(),
                 location.getRevisionTo()
         );
+
+        if(diff == null)
+            return "redirect:/config?message=svn_exception";
+
         List<String> fileList = diffService.getFileList(diff, sort, order);
 
         model.addAttribute("location", location);

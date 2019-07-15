@@ -33,6 +33,11 @@
     <div class="float-right" th:if="${loggedUser.isAdmin}">
         <a class = "btn btn-secondary" th:text="${'Zarządzaj autorami'}" th:href="${'/authors'}"></a>
     </div>
+    <div class="float-right" th:if="${loggedUser.username != null}">
+        <form action="#" th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-danger">Wyloguj</button>
+        </form>
+    </div>
     <br>
     <br>
 </div>
