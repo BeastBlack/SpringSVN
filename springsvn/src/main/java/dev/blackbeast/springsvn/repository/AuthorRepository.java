@@ -2,7 +2,6 @@ package dev.blackbeast.springsvn.repository;
 
 import dev.blackbeast.springsvn.domain.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 
 import javax.transaction.Transactional;
 import java.util.List;

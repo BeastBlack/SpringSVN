@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Repozytorium</title>
+    <meta http-equiv="Content-Type" location="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:if="${showMessage == 'REGISTER_OK'}" class="alert alert-success" role="alert">
+    <a th:text="${'Konto użytkownika zostało pomyślnie zarejestrowane.'}"></a>
+    <a th:href="${'/login'}">Teraz możesz się zalogować.</a>
+</div>
+<div th:if="${showMessage == 'EDIT_OK'}" class="alert alert-success" role="alert">
+    <a th:text="${'Konto użytkownika zostało pomyślnie zmodyfikowanie.'}"></a>
+    <a th:href="${'/books'}">Powrót do aplikacji.</a>
+</div>
+<div th:if="${showMessage == 'REGISTER_EXISTS'}" class="alert alert-warning" role="alert">
+    <a th:text="${'Użytkownik o podanym loginie jest już zarejestrowany. Wybierz inny login.'}"></a>
+</div>
+<div class="container-fluid">
+    <form class="form-horizontal" th:object="${user}" th:action="@{/register}" th:method="post">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-group">
+            <label class="control-label">Login:</label>
+            <input type="text" class="form-control" th:field="*{username}" th:if="${user.id == null}" autocomplete="off"/>
+            <input type="text" class="form-control" th:field="*{username}" th:if="${user.id != null}" autocomplete="off" readonly/>
+            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}"/>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Hasło:</label>
+            <input type="password" class="form-control" th:field="*{password}" autocomplete="new-password"/>
+            <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
+        </div>
+
+        <div class="form-group" th:if="${adminEnabled}">
+            <label class="control-label">Administrator:
+                <input type="checkbox" class="form-control" th:field="*{isAdmin}" th:if="${adminEnabled}" checked="unchecked"/>
+                <input type="checkbox" class="form-control" th:field="*{isAdmin}" th:if="${not adminEnabled}" checked="unchecked" disabled="disabled"/>
+            </label>
+            <p th:if="${#fields.hasErrors('isAdmin')}" th:errors="*{isAdmin}"/>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Imię i nazwisko:</label>
+            <input type="text" class="form-control" th:field="*{name}"/>
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary float-left">Zatwierdź</button>
+        </div>
+        <div>
+            <a class="btn btn-info float-left" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

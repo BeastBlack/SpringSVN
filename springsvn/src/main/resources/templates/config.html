@@ -41,6 +41,13 @@
             <p th:if="${#fields.hasErrors('svnPassword')}" th:errors="*{svnPassword}"/>
         </div>
 
+        <div class="form-group">
+            <label class="control-label">Anonimowy dostęp do aplikacji
+                <input type="checkbox" class="form-control" th:field="*{appAnonAccess}"/>
+            </label>
+            <p th:if="${#fields.hasErrors('appAnonAccess')}" th:errors="*{appAnonAccess}"/>
+        </div>
+
         <div>
             <button type="submit" class="btn btn-primary float-left">Zapisz konfigurację</button>
         </div>

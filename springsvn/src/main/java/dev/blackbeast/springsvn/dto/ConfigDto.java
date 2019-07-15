@@ -2,7 +2,6 @@ package dev.blackbeast.springsvn.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -12,4 +11,5 @@ public class ConfigDto {
     private String svnLogin;
     private String svnPassword;
     private Boolean svnAuthentication;
+    private Boolean appAnonAccess;
 }

@@ -10,13 +10,30 @@
     <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 </head>
 <body>
+<div th:if="${loggedUser.username == null}" class="alert alert-danger" role="alert">
+    <a th:text="${'Uwaga: Aplikacja działa w trybie dostępu anonimowego. Po utworzeniu konta administratora wyłącz dostęp anonimowy w ustawieniach aplikacji i wykonaj jej restart.'}"></a>
+    <a th:href="${'/config'}">Przejdź do ustawień aplikacji.</a>
+</div>
 <div class="container-fluid">
-    <div class="float-right">
-        <a class = "btn btn-info" th:text="${'Zarządzaj autorami'}" th:href="${'/authors'}"></a>
+    <div class="float-left" th:if="${loggedUser.username != null}">
+        <strong><a th:text="${'Witaj, ' + loggedUser.name + ' (' + loggedUser.username + ')!'}"></a></strong>
     </div>
-    <div class="float-right">
-        <a class = "btn btn-success" th:text="${'Konfiguracja aplikacji'}" th:href="${'/config'}"></a>
+    <div class="float-left" th:if="${loggedUser.username == null}">
+        <strong><a th:text="${'Witaj, Anonimowy użytkowniku!'}"></a></strong>
     </div>
+    <div class="float-right" th:if="${loggedUser.isAdmin}">
+        <a class = "btn btn-success" th:text="${'Ustawienia aplikacji'}" th:href="${'/config'}"></a>
+    </div>
+    <div class="float-right" th:if="${loggedUser.isAdmin}">
+        <a class = "btn btn-warning" th:text="${'Rejestracja użytkownika'}" th:href="${'/register'}"></a>
+    </div>
+    <div class="float-right" th:if="${loggedUser.isAdmin}">
+        <a class = "btn btn-primary" th:text="${'Zarządzaj użytkownikami'}" th:href="${'/users'}"></a>
+    </div>
+    <div class="float-right" th:if="${loggedUser.isAdmin}">
+        <a class = "btn btn-secondary" th:text="${'Zarządzaj autorami'}" th:href="${'/authors'}"></a>
+    </div>
+    <br>
     <br>
 </div>
 <div class="container-fluid">

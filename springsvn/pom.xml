@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>dev.blackbeast</groupId>
 	<artifactId>springsvn</artifactId>
-	<version>1.0.12</version>
+	<version>1.0.15</version>
 	<name>springsvn</name>
 	<description>Demo project for Spring Boot</description>
 
@@ -55,12 +55,10 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
-		<!--
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-		-->
 
 		<dependency>
 			<groupId>org.webjars</groupId>

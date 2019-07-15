@@ -1,7 +1,6 @@
 package dev.blackbeast.springsvn.controller;
 
 import dev.blackbeast.springsvn.domain.Author;
-import dev.blackbeast.springsvn.dto.ConfigDto;
 import dev.blackbeast.springsvn.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

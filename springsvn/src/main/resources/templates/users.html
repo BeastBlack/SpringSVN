@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Repozytorium</title>
+    <meta http-equiv="Content-Type" location="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div th:if="${message == 'ok'}" class="alert alert-success" role="alert">
+        <a th:text="${'Dane użytkownika zostały zapisane.'}"></a>
+    </div>
+    <div th:if="${message == 'user_exists'}" class="alert alert-danger" role="alert">
+        <a th:text="${'Użytkownik o podanym identyfikatorze już istnieje.'}"></a>
+    </div>
+    <div class="float-right">
+        <a class = "btn btn-info" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
+    </div>
+    <br>
+</div>
+<div class="container-fluid">
+    <table class="table table-active">
+        <thead class="thead-dark">
+        <th>Nazwa użytkownika</th>
+        <th>Imię i nazwisko</th>
+        <th>Status użytkownika</th>
+        <th>Uprawnienia administratora</th>
+        <th>Profil użytkownika</th>
+        <th>Usuń konto</th>
+        </thead>
+        <tbody th:each="user : ${users}">
+        <tr>
+            <td style="vertical-align: middle; font-weight: bold;" th:text=${user.username}></td>
+            <td style="vertical-align: middle;" th:text=${user.name}></td>
+            <td th:if="${not user.isEnabled}"><a class="btn btn-success" th:href="${'/users/activate/' + user.id}">Aktywuj</a></td>
+            <td th:if="${user.isEnabled}"><a class="btn btn-danger" th:href="${'/users/deactivate/' + user.id}">Deaktywuj</a></td>
+            <td th:if="${not user.isAdmin}"><a class="btn btn-success" th:href="${'/users/grant-admin/' + user.id}">Nadaj</a></td>
+            <td th:if="${user.isAdmin}"><a class="btn btn-danger" th:href="${'/users/revoke-admin/' + user.id}">Odbierz</a></td>
+            <td><a class="btn btn-info" th:href="${'/users/edit/' + user.id}">Edytuj</a></td>
+            <td><a class="btn btn-danger" th:href="${'/users/remove/' + user.id}">Usuń</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+        <a class="btn btn-success float-left" th:text="${'Rejestracja użytkownika'}" th:href="${'/authors/add'}"></a>
+    </div>
+    <div>
+        <a class="btn btn-info float-left" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
+    </div>
+</div>
+</body>
+</html>
