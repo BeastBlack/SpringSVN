@@ -12,11 +12,11 @@
 <body>
 <div th:if="${showMessage == 'REGISTER_OK'}" class="alert alert-success" role="alert">
     <a th:text="${'Konto użytkownika zostało pomyślnie zarejestrowane.'}"></a>
-    <a th:href="${'/login'}">Teraz możesz się zalogować.</a>
+    <a th:href="${'/content'}">Przejdź do aplikacji.</a>
 </div>
 <div th:if="${showMessage == 'EDIT_OK'}" class="alert alert-success" role="alert">
     <a th:text="${'Konto użytkownika zostało pomyślnie zmodyfikowanie.'}"></a>
-    <a th:href="${'/books'}">Powrót do aplikacji.</a>
+    <a th:href="${'/content'}">Przejdź do aplikacji.</a>
 </div>
 <div th:if="${showMessage == 'REGISTER_EXISTS'}" class="alert alert-warning" role="alert">
     <a th:text="${'Użytkownik o podanym loginie jest już zarejestrowany. Wybierz inny login.'}"></a>

@@ -61,7 +61,7 @@ public class ConfigService {
     public Boolean isAppAnonAccess() {
         String authentication = getValue(CONFIG_APP_ANON_ACCESS);
 
-        return authentication != null ? authentication.toLowerCase().equals(CONFIG_APP_YES) : Boolean.FALSE;
+        return authentication != null ? authentication.toLowerCase().equals(CONFIG_APP_YES) : Boolean.TRUE;
     }
 
     public ConfigDto getConfiguration() {
