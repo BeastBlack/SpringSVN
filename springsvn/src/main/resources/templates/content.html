@@ -99,7 +99,7 @@
                 <td style="vertical-align: middle;" th:text="${#dates.format(entry.lastRevision.date, 'dd-MM-yyyy HH:mm:ss')}"></td>
                 <td style="vertical-align: middle;" th:text="${entry.lastRevision.authorId}"></td>
                 <td style="vertical-align: middle;" th:text="${entry.lastRevision.authorName}"></td>
-                <td style="vertical-align: middle;" th:text="${entry.lastRevision.message}"></td>
+                <td style="vertical-align: middle;"><div th:utext="${entry.lastRevision.message}"></div></td>
                 <td th:if="${location.path != '/'}"><a class="btn btn-secondary" th:text="Przeglądaj" th:href="${'/history?path=' + location.path + '/' + entry.name + '&revision=' + location.revision}"></a></td>
                 <td th:if="${location.path == '/'}"><a class="btn btn-secondary" th:text="Przeglądaj" th:href="${'/history?path=' + location.path + entry.name + '&revision=' + location.revision}"></a></td>
             </tbody>

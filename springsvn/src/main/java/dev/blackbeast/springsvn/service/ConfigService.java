@@ -18,6 +18,9 @@ public class ConfigService {
     private final static String CONFIG_SVN_PASSWORD = "SvnPassword";
     private final static String CONFIG_SVN_AUTHENTICATION = "SvnAuthentication";
     private final static String CONFIG_APP_ANON_ACCESS = "AppAnonAccess";
+    private final static String CONFIG_APP_BUG_TRACKER_INTEGRATION = "AppBugTrackerIntegration";
+    private final static String CONFIG_APP_BUG_TRACKER_PATTERN = "AppBugTrackerPattern";
+    private final static String CONFIG_APP_BUG_TRACKER_REPLACE = "AppBugTrackerReplace";
     private final static String CONFIG_SVN_AUTH_BASIC = "basic";
     private final static String CONFIG_SVN_AUTH_NONE = "none";
     private final static String CONFIG_APP_YES = "yes";
@@ -64,6 +67,20 @@ public class ConfigService {
         return authentication != null ? authentication.toLowerCase().equals(CONFIG_APP_YES) : Boolean.TRUE;
     }
 
+    public Boolean isAppBugTrackerIntegrationEnabled() {
+        String value = getValue(CONFIG_APP_BUG_TRACKER_INTEGRATION);
+
+        return value != null ? value.toLowerCase().equals(CONFIG_APP_YES) : Boolean.FALSE;
+    }
+
+    public String getAppBugTrackerPattern() {
+        return getValue(CONFIG_APP_BUG_TRACKER_PATTERN);
+    }
+
+    public String getConfigAppBugTrackerReplace() {
+        return getValue(CONFIG_APP_BUG_TRACKER_REPLACE);
+    }
+
     public ConfigDto getConfiguration() {
         ConfigDto configDto = new ConfigDto();
         configDto.setSvnRepositoryAddress(this.getSvnRepositoryAddress());
@@ -71,6 +88,9 @@ public class ConfigService {
         configDto.setSvnPassword(this.getSvnPassword());
         configDto.setSvnAuthentication(this.isBasicAuthentication());
         configDto.setAppAnonAccess(this.isAppAnonAccess());
+        configDto.setAppBugTrackerIntegration(this.isAppBugTrackerIntegrationEnabled());
+        configDto.setAppBugTrackerPattern(this.getAppBugTrackerPattern());
+        configDto.setAppBugTrackerReplace(this.getConfigAppBugTrackerReplace());
 
         return configDto;
     }
@@ -108,6 +128,24 @@ public class ConfigService {
         conf.setName(CONFIG_APP_ANON_ACCESS);
         conf.setValue(config.getAppAnonAccess() ? CONFIG_APP_YES : CONFIG_APP_NO);
         configRepository.deleteByName(CONFIG_APP_ANON_ACCESS);
+        configRepository.save(conf);
+
+        conf = new Config();
+        conf.setName(CONFIG_APP_BUG_TRACKER_INTEGRATION);
+        conf.setValue(config.getAppBugTrackerIntegration() ? CONFIG_APP_YES : CONFIG_APP_NO);
+        configRepository.deleteByName(CONFIG_APP_BUG_TRACKER_INTEGRATION);
+        configRepository.save(conf);
+
+        conf = new Config();
+        conf.setName(CONFIG_APP_BUG_TRACKER_PATTERN);
+        conf.setValue(config.getAppBugTrackerPattern());
+        configRepository.deleteByName(CONFIG_APP_BUG_TRACKER_PATTERN);
+        configRepository.save(conf);
+
+        conf = new Config();
+        conf.setName(CONFIG_APP_BUG_TRACKER_REPLACE);
+        conf.setValue(config.getAppBugTrackerReplace());
+        configRepository.deleteByName(CONFIG_APP_BUG_TRACKER_REPLACE);
         configRepository.save(conf);
 
         refreshData();

@@ -17,6 +17,9 @@
     <div th:if="${message == 'user_exists'}" class="alert alert-danger" role="alert">
         <a th:text="${'Autor o podanym identyfikatorze już istnieje.'}"></a>
     </div>
+    <div>
+        <a class="btn btn-success float-left" th:text="${'Nowy autor'}" th:href="${'/authors/add'}"></a>
+    </div>
     <div class="float-right">
         <a class = "btn btn-info" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
     </div>

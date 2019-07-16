@@ -17,6 +17,24 @@
     <div th:if="${message == 'user_exists'}" class="alert alert-danger" role="alert">
         <a th:text="${'Użytkownik o podanym identyfikatorze już istnieje.'}"></a>
     </div>
+    <div th:if="${message == 'activate'}" class="alert alert-success" role="alert">
+        <a th:text="${'Użytkownik został aktywowany.'}"></a>
+    </div>
+    <div th:if="${message == 'deactivate'}" class="alert alert-success" role="alert">
+        <a th:text="${'Użytkownik został deaktywowany.'}"></a>
+    </div>
+    <div th:if="${message == 'grant-admin'}" class="alert alert-success" role="alert">
+        <a th:text="${'Uprawnienia administratora zostały nadane.'}"></a>
+    </div>
+    <div th:if="${message == 'revoke-admin'}" class="alert alert-success" role="alert">
+        <a th:text="${'Uprawnienia administratora zostały odebrane.'}"></a>
+    </div>
+    <div th:if="${message == 'edit'}" class="alert alert-success" role="alert">
+        <a th:text="${'Konto użytkownika zostało zmodyfikowane.'}"></a>
+    </div>
+    <div th:if="${message == 'remove'}" class="alert alert-success" role="alert">
+        <a th:text="${'Konto użytkownika zostało usunięte.'}"></a>
+    </div>
     <div class="float-right">
         <a class = "btn btn-info" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
     </div>
@@ -36,10 +54,12 @@
         <tr>
             <td style="vertical-align: middle; font-weight: bold;" th:text=${user.username}></td>
             <td style="vertical-align: middle;" th:text=${user.name}></td>
-            <td th:if="${not user.isEnabled}"><a class="btn btn-success" th:href="${'/users/activate/' + user.id}">Aktywuj</a></td>
-            <td th:if="${user.isEnabled}"><a class="btn btn-danger" th:href="${'/users/deactivate/' + user.id}">Deaktywuj</a></td>
-            <td th:if="${not user.isAdmin}"><a class="btn btn-success" th:href="${'/users/grant-admin/' + user.id}">Nadaj</a></td>
-            <td th:if="${user.isAdmin}"><a class="btn btn-danger" th:href="${'/users/revoke-admin/' + user.id}">Odbierz</a></td>
+            <td th:if="${not user.isEnabled and user.username != loggedUsername}"><a class="btn btn-success" th:href="${'/users/activate/' + user.id}">Aktywuj</a></td>
+            <td th:if="${user.isEnabled and user.username != loggedUsername}"><a class="btn btn-danger" th:href="${'/users/deactivate/' + user.id}">Deaktywuj</a></td>
+            <td th:if="${user.username == loggedUsername}"></td>
+            <td th:if="${not user.isAdmin and user.username != loggedUsername}"><a class="btn btn-success" th:href="${'/users/grant-admin/' + user.id}">Nadaj</a></td>
+            <td th:if="${user.isAdmin and user.username != loggedUsername}"><a class="btn btn-danger" th:href="${'/users/revoke-admin/' + user.id}">Odbierz</a></td>
+            <td th:if="${user.username == loggedUsername}"></td>
             <td><a class="btn btn-info" th:href="${'/users/edit/' + user.id}">Edytuj</a></td>
             <td><a class="btn btn-danger" th:href="${'/users/remove/' + user.id}">Usuń</a></td>
         </tr>

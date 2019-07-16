@@ -1,6 +1,7 @@
 package dev.blackbeast.springsvn.service;
 
 import dev.blackbeast.springsvn.domain.User;
+import dev.blackbeast.springsvn.dto.UserProfileDto;
 import dev.blackbeast.springsvn.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -55,5 +56,45 @@ public class UserService {
 
     public List<User> getAll() {
         return userRepository.findAll();
+    }
+
+    public void activateUser(Long id) {
+        userRepository.activateUser(id);
+    }
+
+    public void deactivateUser(Long id) {
+        userRepository.deactivateUser(id);
+    }
+
+    public void grantAdminPermission(Long id) {
+        userRepository.grantAdminPermission(id);
+    }
+
+    public void revokeAdminPermission(Long id) {
+        userRepository.revokeAdminPermission(id);
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public User get(Long id) {
+        return userRepository.findById(id).get();
+    }
+
+    public void updateUser(UserProfileDto profile) {
+        if(profile != null)
+            if(profile.getId() != null) {
+                User user = get(profile.getId());
+                user.setName(profile.getName());
+
+                if(profile.getPassword() != null)
+                    if(!profile.getPassword().isEmpty()) {
+                        PasswordEncoder pe = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+                        user.setPassword(pe.encode(profile.getPassword()));
+                    }
+
+                userRepository.save(user);
+            }
     }
 }

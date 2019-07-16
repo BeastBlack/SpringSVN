@@ -1,5 +1,6 @@
 package dev.blackbeast.springsvn.svn;
 
+import dev.blackbeast.springsvn.bugtracker.BugTracker;
 import dev.blackbeast.springsvn.domain.ContentEntry;
 import dev.blackbeast.springsvn.domain.Revision;
 import dev.blackbeast.springsvn.service.AuthorService;
@@ -30,6 +31,9 @@ public class SVNUtils {
     @Autowired
     AuthorService authorService;
 
+    @Autowired
+    BugTracker bugTracker;
+
     public Revision getRevisionData(Long rev) {
         try {
             SVNRepository repository = SVNRepositoryFactory.create(SVNURL.parseURIEncoded(configService.getSvnRepositoryAddress()));
@@ -52,7 +56,9 @@ public class SVNUtils {
             revision.setDate(entry.getDate());
             revision.setAuthorId(entry.getAuthor());
             revision.setAuthorName(authorService.getAuthorName(entry.getAuthor()));
-            revision.setMessage(entry.getMessage());
+            revision.setMessage(configService.isAppBugTrackerIntegrationEnabled() ?
+                    bugTracker.format(entry.getMessage()) :
+                    entry.getMessage());
 
             repository.closeSession();
 
@@ -124,7 +130,9 @@ public class SVNUtils {
             Map<Long, String> messages = getRevisionsMessages(revs);
 
             for(ContentEntry ce : contentEntries)
-                ce.getLastRevision().setMessage(messages.get(ce.getLastRevision().getId()));
+                ce.getLastRevision().setMessage(configService.isAppBugTrackerIntegrationEnabled() ?
+                        bugTracker.format(messages.get(ce.getLastRevision().getId())) :
+                        messages.get(ce.getLastRevision().getId()));
 
             operationFactory.dispose();
 
@@ -205,7 +213,10 @@ public class SVNUtils {
                 rev.setDate(entry.getDate());
                 rev.setAuthorId(entry.getAuthor());
                 rev.setAuthorName(authorService.getAuthorName(entry.getAuthor()));
-                rev.setMessage(entry.getMessage());
+                rev.setMessage(configService.isAppBugTrackerIntegrationEnabled() ?
+                        bugTracker.format(entry.getMessage()) :
+                        entry.getMessage());
+
                 revisionList.add(rev);
             }
 

@@ -12,4 +12,7 @@ public class ConfigDto {
     private String svnPassword;
     private Boolean svnAuthentication;
     private Boolean appAnonAccess;
+    private Boolean appBugTrackerIntegration;
+    private String appBugTrackerPattern;
+    private String appBugTrackerReplace;
 }

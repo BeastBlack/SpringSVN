@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>dev.blackbeast</groupId>
 	<artifactId>springsvn</artifactId>
-	<version>1.0.15</version>
+	<version>1.0.16</version>
 	<name>springsvn</name>
-	<description>Demo project for Spring Boot</description>
+	<description>SpringSVN is web-based SVN client.</description>
 
 	<properties>
 		<java.version>1.8</java.version>
