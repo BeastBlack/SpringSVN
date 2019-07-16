@@ -42,4 +42,8 @@ mvn clean package
 
 - Włącz integrację w ustawieniach aplikacji.
 - Podaj wzorzec (regex) identyfikatora incydentu, np.: dla BUG-123 będzie to: (BUG-)\d{1,}.
-- Podaj treść HTML, na jaki zostanie podmieniony znaleziony identyfikator incydentu: <a href="http://bugtracksrv/link/@pattern">@pattern</a>.
+- Podaj treść HTML, na jaki zostanie podmieniony znaleziony identyfikator incydentu: 
+
+```
+<a href="http://bugtracksrv/link/@pattern">@pattern</a>.
+```
