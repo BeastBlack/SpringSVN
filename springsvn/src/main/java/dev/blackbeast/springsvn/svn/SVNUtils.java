@@ -1,6 +1,7 @@
 package dev.blackbeast.springsvn.svn;
 
 import dev.blackbeast.springsvn.bugtracker.BugTracker;
+import dev.blackbeast.springsvn.date.TimeAgo;
 import dev.blackbeast.springsvn.domain.ContentEntry;
 import dev.blackbeast.springsvn.domain.Revision;
 import dev.blackbeast.springsvn.service.AuthorService;
@@ -54,6 +55,7 @@ public class SVNUtils {
             Revision revision = new Revision();
             revision.setId(entry.getRevision());
             revision.setDate(entry.getDate());
+            revision.setTimeAgo(TimeAgo.timeAgo(entry.getDate()));
             revision.setAuthorId(entry.getAuthor());
             revision.setAuthorName(authorService.getAuthorName(entry.getAuthor()));
             revision.setMessage(configService.isAppBugTrackerIntegrationEnabled() ?
@@ -111,6 +113,7 @@ public class SVNUtils {
                         Revision revision = new Revision();
                         revision.setId(object.getRevision());
                         revision.setDate(object.getDate());
+                        revision.setTimeAgo(TimeAgo.timeAgo(object.getDate()));
                         revision.setAuthorId(object.getAuthor());
                         revision.setAuthorName(authorService.getAuthorName(object.getAuthor()));
                         revision.setMessage(object.getCommitMessage());
@@ -211,6 +214,7 @@ public class SVNUtils {
                 Revision rev = new Revision();
                 rev.setId(entry.getRevision());
                 rev.setDate(entry.getDate());
+                rev.setTimeAgo(TimeAgo.timeAgo(entry.getDate()));
                 rev.setAuthorId(entry.getAuthor());
                 rev.setAuthorName(authorService.getAuthorName(entry.getAuthor()));
                 rev.setMessage(configService.isAppBugTrackerIntegrationEnabled() ?

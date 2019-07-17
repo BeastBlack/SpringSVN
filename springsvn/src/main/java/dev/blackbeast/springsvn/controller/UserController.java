@@ -1,5 +1,6 @@
 package dev.blackbeast.springsvn.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import dev.blackbeast.springsvn.domain.User;
 import dev.blackbeast.springsvn.dto.UserProfileDto;
 import dev.blackbeast.springsvn.service.ConfigService;
@@ -127,10 +128,26 @@ public class UserController {
         return "profile";
     }
 
-    @RequestMapping(value = "/users/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/profile", method = RequestMethod.POST)
     public String saveUser(@Valid UserProfileDto userProfileDto) {
         userService.updateUser(userProfileDto);
 
-        return "redirect:/users?message=edit";
+        if(userService.get(userProfileDto.getId()).getIsAdmin())
+            return "redirect:/users?message=edit";
+        else
+            return "redirect:/content";
+    }
+
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public String showProfile(Model model) {
+        User loggedUser = userService.getLoggedUser();
+
+        if(loggedUser == null)
+            return "redirect:/content";
+
+        UserProfileDto profile = new UserProfileDto(loggedUser);
+        model.addAttribute("user", profile);
+        model.addAttribute("loggedUserProfile", Boolean.TRUE);
+        return "profile";
     }
 }

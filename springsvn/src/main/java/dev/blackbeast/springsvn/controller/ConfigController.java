@@ -4,6 +4,7 @@ import dev.blackbeast.springsvn.dto.ConfigDto;
 import dev.blackbeast.springsvn.service.AuthorService;
 import dev.blackbeast.springsvn.service.ConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,9 @@ public class ConfigController {
     @Autowired
     AuthorService authorService;
 
+    @Value("${app.version}")
+    private String appVersion;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String init() {
         if(configService.getSvnRepositoryAddress() == null || configService.getSvnRepositoryAddress().equals(""))
@@ -39,6 +43,8 @@ public class ConfigController {
 
         if(message != null)
             model.addAttribute("message", message);
+
+        model.addAttribute("version", appVersion);
 
         return "config";
     }

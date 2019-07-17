@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Repozytorium</title>
+    <title>SpringSVN: Historia zmian</title>
     <meta http-equiv="Content-Type" location="text/html; charset=UTF-8" />
 
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
@@ -65,7 +65,10 @@
         <tbody th:each="revision : ${revisionList}">
         <tr>
             <td style="vertical-align: middle; font-weight:bold;" th:text="${revision.id}"></td>
-            <td style="vertical-align: middle;" th:text="${#dates.format(revision.date, 'dd-MM-yyyy HH:mm:ss')}"></td>
+            <td style="vertical-align: middle;">
+                <div th:text="${#dates.format(revision.date, 'dd-MM-yyyy HH:mm:ss')}"></div>
+                <div style="font-style: italic;" th:text="${'(' + revision.timeAgo + ')'}"></div>
+            </td>
             <td style="vertical-align: middle;" th:text="${revision.authorId}"></td>
             <td style="vertical-align: middle;" th:text="${revision.authorName}"></td>
             <td style="vertical-align: middle;"><div th:utext="${revision.message}"></div></td>

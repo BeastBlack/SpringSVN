@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>dev.blackbeast</groupId>
 	<artifactId>springsvn</artifactId>
-	<version>1.0.16</version>
+	<version>1.0.17</version>
 	<name>springsvn</name>
 	<description>SpringSVN is web-based SVN client.</description>
 
@@ -90,6 +90,12 @@
 			<artifactId>svnkit</artifactId>
 			<version>1.10.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.ocpsoft.prettytime</groupId>
+			<artifactId>prettytime</artifactId>
+			<version>4.0.1.Final</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -114,6 +120,10 @@
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
 			<url>https://repo.spring.io/milestone</url>
+		</repository>
+		<repository>
+			<id>sonatype-snapshots</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>

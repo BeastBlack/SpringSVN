@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Repozytorium</title>
+    <title>SpringSVN: Profil użytkownika</title>
     <meta http-equiv="Content-Type" location="text/html; charset=UTF-8" />
 
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container-fluid">
-    <form class="form-horizontal" th:object="${user}" th:action="@{/users/edit}" th:method="post">
+    <form class="form-horizontal" th:object="${user}" th:action="@{/profile}" th:method="post">
         <input type="hidden" th:field="*{id}"/>
 
         <div class="form-group">
@@ -36,7 +36,10 @@
             <button type="submit" class="btn btn-primary float-left">Zatwierdź</button>
         </div>
         <div>
-            <a class="btn btn-info float-left" th:text="${'Powrót'}" th:href="${'/users'}"></a>
+            <a th:if="${loggedUserProfile}" class="btn btn-info float-left" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
+        </div>
+        <div>
+            <a th:if="${loggedUserProfile == null}" class="btn btn-info float-left" th:text="${'Powrót'}" th:href="${'/users'}"></a>
         </div>
     </form>
 </div>

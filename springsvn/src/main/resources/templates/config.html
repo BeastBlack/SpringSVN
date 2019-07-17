@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Repozytorium</title>
+    <title>SpringSVN: Ustawienia aplikacji</title>
     <meta http-equiv="Content-Type" location="text/html; charset=UTF-8" />
 
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
@@ -10,6 +10,9 @@
     <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 </head>
 <body>
+<div class="container-fluid" style="margin-bottom: 5px;">
+    <h5 class="float-right"><span class="badge badge-success float-right" th:text="${'SpringSVN ver. ' + version}"></span></h5>
+</div>
 <div class="container-fluid">
     <div th:if="${message == 'svn_exception'}" class="alert alert-danger" role="alert">
         <a th:text="${'Wystapił błąd podczas pobierania danych z SVN. Sprawdź poprawność podanych danych.'}"></a>

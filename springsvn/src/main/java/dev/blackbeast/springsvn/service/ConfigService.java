@@ -1,5 +1,6 @@
 package dev.blackbeast.springsvn.service;
 
+import dev.blackbeast.springsvn.cipher.TextCipher;
 import dev.blackbeast.springsvn.domain.Config;
 import dev.blackbeast.springsvn.dto.ConfigDto;
 import dev.blackbeast.springsvn.repository.ConfigRepository;
@@ -29,6 +30,9 @@ public class ConfigService {
     @Autowired
     ConfigRepository configRepository;
 
+    @Autowired
+    TextCipher textCipher;
+
     public void refreshData() {
         configs = new HashMap<>();
 
@@ -52,7 +56,7 @@ public class ConfigService {
     }
 
     public String getSvnPassword() {
-        return getValue(CONFIG_SVN_PASSWORD);
+        return textCipher.decrypt(getValue(CONFIG_SVN_PASSWORD));
     }
 
     public Boolean isBasicAuthentication() {
@@ -119,7 +123,7 @@ public class ConfigService {
         if(!config.getSvnPassword().isEmpty()) {
             conf = new Config();
             conf.setName(CONFIG_SVN_PASSWORD);
-            conf.setValue(config.getSvnPassword());
+            conf.setValue(textCipher.encrypt(config.getSvnPassword()));
             configRepository.deleteByName(CONFIG_SVN_PASSWORD);
             configRepository.save(conf);
         }

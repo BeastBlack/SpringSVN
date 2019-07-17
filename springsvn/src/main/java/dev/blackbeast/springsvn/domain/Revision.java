@@ -10,5 +10,6 @@ public class Revision {
     private String authorId;
     private String authorName;
     private Date date;
+    private String timeAgo;
     private String message;
 }
