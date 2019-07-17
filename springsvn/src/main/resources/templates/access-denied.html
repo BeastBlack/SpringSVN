@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SpringSVN: Coś poszło nie tak...</title>
+    <meta http-equiv="Content-Type" location="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="alert alert-danger" role="alert">
+        <a th:text="${'Coś poszło nie tak. Strona której szukasz nie istnieje lub nie masz uprawnień aby ją zobaczyć.'}"></a>
+    </div>
+    <div>
+        <a class = "btn btn-info" th:text="${'Wróć do aplikacji'}" th:href="${'/content?path=/'}"></a>
+    </div>
+</div>
+</body>
+</html>

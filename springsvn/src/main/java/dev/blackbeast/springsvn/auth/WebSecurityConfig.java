@@ -43,7 +43,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                             "/img/**",
                             "/webjars/**",
                             "/register",
-                            "/refresh").permitAll()
+                            "/refresh",
+                            "/access-denied",
+                            "/favicon.ico").permitAll()
                     .antMatchers("/config", "/authors", "/users").hasAnyAuthority("ADMIN")
                     .antMatchers("/profile").hasAnyAuthority("ADMIN", "USER")
                     .anyRequest().authenticated()
@@ -52,7 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                     .and()
                     .logout()
-                    .permitAll();
+                    .permitAll()
+                    .and().exceptionHandling().accessDeniedPage("/access-denied");
         }
 
     }
