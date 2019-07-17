@@ -1,6 +1,5 @@
 package dev.blackbeast.springsvn.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import dev.blackbeast.springsvn.domain.User;
 import dev.blackbeast.springsvn.dto.UserProfileDto;
 import dev.blackbeast.springsvn.service.ConfigService;
