@@ -20,18 +20,21 @@ public class HistoryController {
 
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public String showHistory(@RequestParam(value = "path", required = false) String path,
-                              @RequestParam(value = "revision", required = false) Long revision,
-                              @RequestParam(value = "revisionTo", required = false) Long revisionTo,
+                              @RequestParam(value = "thresholdFrom", required = false) String thresholdFrom,
+                              @RequestParam(value = "thresholdTo", required = false) String thresholdTo,
                               @RequestParam(value = "revisionMax", required = false) Long revisionMax,
+                              @RequestParam(value = "searchText", required = false) String searchText,
                               @RequestParam(value = "sort", required = false) String sort,
                               @RequestParam (value = "order", required = false) String order,
                               Model model) {
-        Location location = historyService.getLocation(path, revision, revisionTo, revisionMax);
+
+        Location location = historyService.getLocation(path, thresholdFrom, thresholdTo, revisionMax, searchText);
         List<Revision> revisionList = historyService.getHistory(
                 location.getPath(),
-                location.getRevision(),
-                location.getRevisionTo(),
+                location.getThresholdFrom(),
+                location.getThresholdTo(),
                 location.getRevisionMax(),
+                location.getSearchText(),
                 sort,
                 order
         );

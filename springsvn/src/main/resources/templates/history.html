@@ -20,21 +20,27 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label">Rewizja Od:</label>
-            <input type="text" class="form-control" th:field="*{revision}"/>
-            <p th:if="${#fields.hasErrors('revision')}" th:errors="*{revision}"/>
+            <label class="control-label">Rewizja Od lub Data Od:</label>
+            <input type="text" class="form-control" th:field="*{thresholdFrom}"/>
+            <p th:if="${#fields.hasErrors('thresholdFrom')}" th:errors="*{thresholdFrom}"/>
         </div>
 
         <div class="form-group">
-            <label class="control-label">Rewizja Do:</label>
-            <input type="text" class="form-control" th:field="*{revisionTo}"/>
-            <p th:if="${#fields.hasErrors('revisionTo')}" th:errors="*{revisionTo}"/>
+            <label class="control-label">Rewizja Do lub Data Do:</label>
+            <input type="text" class="form-control" th:field="*{thresholdTo}"/>
+            <p th:if="${#fields.hasErrors('thresholdTo')}" th:errors="*{thresholdTo}"/>
         </div>
 
         <div class="form-group">
-            <label class="control-label">Liczba prezentowanych rewizji:</label>
+            <label class="control-label">Maksymalna liczba prezentowanych rewizji:</label>
             <input type="text" class="form-control" th:field="*{revisionMax}"/>
             <p th:if="${#fields.hasErrors('revisionMax')}" th:errors="*{revisionMax}"/>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Szukana fraza:</label>
+            <input type="text" class="form-control" th:field="*{searchText}"/>
+            <p th:if="${#fields.hasErrors('searchText')}" th:errors="*{searchText}"/>
         </div>
 
         <div>
@@ -50,7 +56,7 @@
             <a class="btn btn-warning float-left" th:text="${'Najnowsza rewizja (HEAD)'}" th:href="${'/history?path=' + location.path + '&revisionMax=' + location.revisionMax + '&sort=' + sort + '&order=' + order}"></a>
         </div>
         <div>
-            <a class="btn btn-secondary float-left" th:text="${'Powrót do repozytorium'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision}"></a>
+            <a class="btn btn-secondary float-left" th:text="${'Powrót do repozytorium'}" th:href="${'/content?path=' + location.path}"></a>
         </div>
     </form>
     <table class="table table-active">
@@ -66,7 +72,7 @@
         <tr>
             <td style="vertical-align: middle; font-weight:bold;" th:text="${revision.id}"></td>
             <td style="vertical-align: middle;">
-                <div th:text="${#dates.format(revision.date, 'dd-MM-yyyy HH:mm:ss')}"></div>
+                <div th:text="${#dates.format(revision.date, 'dd.MM.yyyy HH:mm:ss')}"></div>
                 <div style="font-style: italic;" th:text="${'(' + revision.timeAgo + ')'}"></div>
             </td>
             <td style="vertical-align: middle;" th:text="${revision.authorId}"></td>

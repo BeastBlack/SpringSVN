@@ -1,12 +1,14 @@
 package dev.blackbeast.springsvn.svn;
 
 import dev.blackbeast.springsvn.bugtracker.BugTracker;
+import dev.blackbeast.springsvn.date.DateParser;
 import dev.blackbeast.springsvn.date.TimeAgo;
 import dev.blackbeast.springsvn.domain.ContentEntry;
 import dev.blackbeast.springsvn.domain.Revision;
 import dev.blackbeast.springsvn.service.AuthorService;
 import dev.blackbeast.springsvn.service.ConfigService;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.tmatesoft.svn.core.*;
@@ -181,11 +183,11 @@ public class SVNUtils {
         return null;
     }
 
-    public List<Revision> getHistory(String path, Long revision, Long revisionTo, Long revisionMax) {
+    public List<Revision> getHistory(String path, String thresholdFrom, String thresholdTo, Long revisionMax, String searchText) {
         try {
             SvnOperationFactory operationFactory = new SvnOperationFactory();
 
-            if(configService.isBasicAuthentication()) {
+            if (configService.isBasicAuthentication()) {
                 ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(configService.getSvnLogin(), configService.getSvnPassword().toCharArray());
                 operationFactory.setAuthenticationManager(authManager);
             }
@@ -196,21 +198,39 @@ public class SVNUtils {
                             SVNURL.parseURIEncoded(getAbsoluteSvnPath(path))));
             logOperation.setLimit(revisionMax);
 
-            SVNRevision svnRev = revision != null ? SVNRevision.create(revision) : SVNRevision.HEAD;
-            SVNRevision svnRevTo = SVNRevision.create(revisionTo);
+            SVNRevision svnRev = null;
+            SVNRevision svnRevTo = null;
+
+            if (thresholdFrom == null)
+                svnRev = SVNRevision.HEAD;
+            else if (thresholdFrom.isEmpty())
+                svnRev = SVNRevision.HEAD;
+            else if (StringUtils.isNumeric(thresholdFrom))
+                svnRev = SVNRevision.create(Long.parseLong(thresholdFrom));
+            else
+                svnRev = SVNRevision.create(DateParser.parse(thresholdFrom));
+
+            if (thresholdTo == null)
+                svnRevTo = SVNRevision.create(1L);
+            else if (thresholdTo.isEmpty())
+                svnRevTo = SVNRevision.create(1L);
+            else if (StringUtils.isNumeric(thresholdTo))
+                svnRevTo = SVNRevision.create(Long.parseLong(thresholdTo));
+            else
+                svnRevTo = SVNRevision.create(DateParser.parse(thresholdTo));
 
             logOperation.setRevisionRanges(Collections.singleton(
                     SvnRevisionRange.create(
                             svnRev,
                             svnRevTo
                     )
-            ) );
+            ));
 
-            Collection<SVNLogEntry> logEntries = logOperation.run( null );
+            Collection<SVNLogEntry> logEntries = logOperation.run(null);
 
             List<Revision> revisionList = new ArrayList<>();
 
-            for(SVNLogEntry entry : logEntries) {
+            for (SVNLogEntry entry : logEntries) {
                 Revision rev = new Revision();
                 rev.setId(entry.getRevision());
                 rev.setDate(entry.getDate());
@@ -221,18 +241,35 @@ public class SVNUtils {
                         bugTracker.format(entry.getMessage()) :
                         entry.getMessage());
 
-                revisionList.add(rev);
+                if (searchText == null)
+                    revisionList.add(rev);
+                else if (searchText.isEmpty())
+                    revisionList.add(rev);
+                else {
+                    searchText = searchText.toLowerCase();
+
+                    if (entry.getMessage().toLowerCase().contains(searchText) ||
+                            entry.getAuthor().toLowerCase().contains(searchText) ||
+                            rev.getAuthorName().toLowerCase().contains(searchText))
+                        revisionList.add(rev);
+                }
             }
 
             operationFactory.dispose();
 
             return revisionList;
+        }catch(SVNAuthenticationException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            return null;
+        }catch(SVNException e) {
+            System.out.println(e.getMessage());
+            return new ArrayList<>();
         }catch(Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     public String diff(String path, Long revision, Long revisionTo) {

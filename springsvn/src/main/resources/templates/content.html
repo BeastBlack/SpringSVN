@@ -78,7 +78,7 @@
     <div class="float-right">
         <a th:text="${'Ostatnia rewizja: ' + lastRev.id}"></a><br>
         <a th:text="${'Autor: ' + lastRev.authorId + ' (' + lastRev.authorName + ')'}"></a><br>
-        <a th:text="${'Data: ' + #dates.format(lastRev.date, 'dd-MM-yyyy HH:mm:ss') + ' (' + lastRev.timeAgo + ')'}"></a><br>
+        <a th:text="${'Data: ' + #dates.format(lastRev.date, 'dd.MM.yyyy HH:mm:ss') + ' (' + lastRev.timeAgo + ')'}"></a><br>
         <a th:text="${'Opis: ' + lastRev.message}"></a><br>
     </div>
     <div>
@@ -100,7 +100,7 @@
                 <td style="vertical-align: middle;" th:if="${location.path == '/' and entry.isFile}"><strong><a th:text="${entry.name}"></a></strong></td>
                 <td style="vertical-align: middle;" th:text="${entry.lastRevision.id}"></td>
                 <td style="vertical-align: middle;">
-                    <div th:text="${#dates.format(entry.lastRevision.date, 'dd-MM-yyyy HH:mm:ss')}"></div>
+                    <div th:text="${#dates.format(entry.lastRevision.date, 'dd.MM.yyyy HH:mm:ss')}"></div>
                     <div style="font-style: italic;" th:text="${'(' + entry.lastRevision.timeAgo + ')'}"></div>
                 </td>
                 <td style="vertical-align: middle;" th:text="${entry.lastRevision.authorId}"></td>

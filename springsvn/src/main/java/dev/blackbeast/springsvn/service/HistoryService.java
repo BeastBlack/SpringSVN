@@ -22,36 +22,36 @@ public class HistoryService {
 
     private final String ORDER_DESC = "desc";
 
-    public Location getLocation(String path, Long revision, Long revisionTo, Long revisionMax) {
+    public Location getLocation(String path, String thresholdFrom, String thresholdTo, Long revisionMax, String searchText) {
         if(path == null)
             path = "/";
 
         if(path.equals(""))
             path = "/";
 
-        if(revision == null)
-            revision = svnUtils.getRevisionData(null).getId();
+        if(thresholdFrom == null)
+            thresholdFrom = svnUtils.getRevisionData(null).getId().toString();
 
-        if(revisionTo == null)
-            revisionTo = 1L;
+        if(thresholdTo == null)
+            thresholdTo = "1";
 
         if(revisionMax == null)
             revisionMax = 100L;
 
-        return new Location(path, revision, revisionTo, revisionMax);
+        return new Location(path, thresholdFrom, thresholdTo, revisionMax, searchText);
     }
 
-    public List<Revision> getHistory(String path, Long revision, Long revisionTo, Long revisionMax, String sort, String order) {
+    public List<Revision> getHistory(String path, String thresholdFrom, String thresholdTo, Long revisionMax, String searchText, String sort, String order) {
         if(path == null)
             path = "/";
 
-        if(revisionTo == null)
-            revisionTo = 1L;
+        if(path.equals(""))
+            path = "/";
 
         if(revisionMax == null)
             revisionMax = 100L;
 
-        List<Revision> history = svnUtils.getHistory(path, revision, revisionTo, revisionMax);
+        List<Revision> history = svnUtils.getHistory(path, thresholdFrom, thresholdTo, revisionMax, searchText);
 
         if(history != null && sort != null) {
             if (sort.equals(SORT_REVISION)) {
