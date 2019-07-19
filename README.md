@@ -18,12 +18,14 @@ mvn clean package
 
 # Instrukcja
 
-1. Skonfiguruj dostęp do bazy danych w pliku application.propereties (nazwa bazy, nazwa uzytkownika i hasło).
-2. Uruchom aplikację, przejdź do localhost:8080 (domyślny port). Użyj parametru uruchomieniowego java, jeżeli twoje repozytorium wymaga uwierzytelnienia z użyciem nazwy uzytkownika i hasła:
+1. Skonfiguruj dostęp do bazy danych w pliku application.propereties (nazwa bazy, nazwa użytkownika i hasło).
+2. Uruchom aplikację, przejdź do localhost:8080 (domyślny port). Użyj parametru uruchomieniowego java, jeżeli twoje repozytorium wymaga uwierzytelnienia z użyciem nazwy użytkownika i hasła:
 
+```
 -Dsvnkit.http.methods=Basic
+```
 
-3. Wprowadź adres URI (http, https, file), nazwę i hasło uzytkownika SVN (jeśli trzeba), zostaw zaznaczenie przy wyborze dostępu anonimowego.
+3. Wprowadź adres URI (http, https, file), nazwę i hasło użytkownika SVN (jeśli trzeba), zostaw zaznaczenie przy wyborze dostępu anonimowego.
 4. Jeśli wprowadzone dane są OK, otworzy się widok Repozytorium.
 5. Zarejestruj konto administratora.
 6. Wyłącz w opcjach dostęp anonimowy.
@@ -47,3 +49,7 @@ mvn clean package
 ```
 <a href="http://bugtracksrv/link/@pattern">@pattern</a>.
 ```
+
+# Wyróżnianie ostatnich rewizji
+
+- Aby wyróżnić ostatnio wykonane rewizje, należy w ustawieniach podać zakres czasu (w sekundach), dla którego rewizje zostaną oznaczone jako nowe.
