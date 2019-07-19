@@ -22,6 +22,7 @@ public class ConfigService {
     private final static String CONFIG_APP_BUG_TRACKER_INTEGRATION = "AppBugTrackerIntegration";
     private final static String CONFIG_APP_BUG_TRACKER_PATTERN = "AppBugTrackerPattern";
     private final static String CONFIG_APP_BUG_TRACKER_REPLACE = "AppBugTrackerReplace";
+    private final static String CONFIG_APP_NEW_ITEM_TIME_THRESHOLD = "AppNewItemTimeThreshold";
     private final static String CONFIG_SVN_AUTH_BASIC = "basic";
     private final static String CONFIG_SVN_AUTH_NONE = "none";
     private final static String CONFIG_APP_YES = "yes";
@@ -85,6 +86,12 @@ public class ConfigService {
         return getValue(CONFIG_APP_BUG_TRACKER_REPLACE);
     }
 
+    public Long getAppNewItemTimeThreshold() {
+        String value = getValue(CONFIG_APP_NEW_ITEM_TIME_THRESHOLD);
+
+        return value != null ? Long.parseLong(value) : 0L;
+    }
+
     public ConfigDto getConfiguration() {
         ConfigDto configDto = new ConfigDto();
         configDto.setSvnRepositoryAddress(this.getSvnRepositoryAddress());
@@ -95,63 +102,35 @@ public class ConfigService {
         configDto.setAppBugTrackerIntegration(this.isAppBugTrackerIntegrationEnabled());
         configDto.setAppBugTrackerPattern(this.getAppBugTrackerPattern());
         configDto.setAppBugTrackerReplace(this.getConfigAppBugTrackerReplace());
+        configDto.setAppNewItemTimeThreshold(this.getAppNewItemTimeThreshold());
 
         return configDto;
     }
 
     public void saveConfiguration(ConfigDto config) {
-        Config conf = new Config();
-        conf.setName(CONFIG_SVN_REPOSITORY_ADDRESS);
-        conf.setValue(config.getSvnRepositoryAddress());
-        configRepository.deleteByName(CONFIG_SVN_REPOSITORY_ADDRESS);
-        configRepository.save(conf);
+        write(CONFIG_SVN_REPOSITORY_ADDRESS, config.getSvnRepositoryAddress());
+        write(CONFIG_SVN_AUTHENTICATION, config.getSvnAuthentication() ? CONFIG_SVN_AUTH_BASIC : CONFIG_SVN_AUTH_NONE);
 
-        conf = new Config();
-        conf.setName(CONFIG_SVN_AUTHENTICATION);
-        conf.setValue(config.getSvnAuthentication() ? CONFIG_SVN_AUTH_BASIC : CONFIG_SVN_AUTH_NONE);
-        configRepository.deleteByName(CONFIG_SVN_AUTHENTICATION);
-        configRepository.save(conf);
+        if(!config.getSvnLogin().isEmpty())
+            write(CONFIG_SVN_LOGIN, config.getSvnLogin());
 
-        if(!config.getSvnLogin().isEmpty()) {
-            conf = new Config();
-            conf.setName(CONFIG_SVN_LOGIN);
-            conf.setValue(config.getSvnLogin());
-            configRepository.deleteByName(CONFIG_SVN_LOGIN);
-            configRepository.save(conf);
-        }
+        if(!config.getSvnPassword().isEmpty())
+            write(CONFIG_SVN_PASSWORD, textCipher.encrypt(config.getSvnPassword()));
 
-        if(!config.getSvnPassword().isEmpty()) {
-            conf = new Config();
-            conf.setName(CONFIG_SVN_PASSWORD);
-            conf.setValue(textCipher.encrypt(config.getSvnPassword()));
-            configRepository.deleteByName(CONFIG_SVN_PASSWORD);
-            configRepository.save(conf);
-        }
-
-        conf = new Config();
-        conf.setName(CONFIG_APP_ANON_ACCESS);
-        conf.setValue(config.getAppAnonAccess() ? CONFIG_APP_YES : CONFIG_APP_NO);
-        configRepository.deleteByName(CONFIG_APP_ANON_ACCESS);
-        configRepository.save(conf);
-
-        conf = new Config();
-        conf.setName(CONFIG_APP_BUG_TRACKER_INTEGRATION);
-        conf.setValue(config.getAppBugTrackerIntegration() ? CONFIG_APP_YES : CONFIG_APP_NO);
-        configRepository.deleteByName(CONFIG_APP_BUG_TRACKER_INTEGRATION);
-        configRepository.save(conf);
-
-        conf = new Config();
-        conf.setName(CONFIG_APP_BUG_TRACKER_PATTERN);
-        conf.setValue(config.getAppBugTrackerPattern());
-        configRepository.deleteByName(CONFIG_APP_BUG_TRACKER_PATTERN);
-        configRepository.save(conf);
-
-        conf = new Config();
-        conf.setName(CONFIG_APP_BUG_TRACKER_REPLACE);
-        conf.setValue(config.getAppBugTrackerReplace());
-        configRepository.deleteByName(CONFIG_APP_BUG_TRACKER_REPLACE);
-        configRepository.save(conf);
+        write(CONFIG_APP_ANON_ACCESS, config.getAppAnonAccess() ? CONFIG_APP_YES : CONFIG_APP_NO);
+        write(CONFIG_APP_BUG_TRACKER_INTEGRATION, config.getAppBugTrackerIntegration() ? CONFIG_APP_YES : CONFIG_APP_NO);
+        write(CONFIG_APP_BUG_TRACKER_PATTERN, config.getAppBugTrackerPattern());
+        write(CONFIG_APP_BUG_TRACKER_REPLACE, config.getAppBugTrackerReplace());
+        write(CONFIG_APP_NEW_ITEM_TIME_THRESHOLD, config.getAppNewItemTimeThreshold().toString());
 
         refreshData();
+    }
+
+    private void write(String name, String value) {
+        Config conf = new Config();
+        conf.setName(name);
+        conf.setValue(value);
+        configRepository.deleteByName(name);
+        configRepository.save(conf);
     }
 }

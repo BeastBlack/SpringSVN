@@ -2,6 +2,7 @@ package dev.blackbeast.springsvn.controller;
 
 import dev.blackbeast.springsvn.domain.Location;
 import dev.blackbeast.springsvn.domain.Revision;
+import dev.blackbeast.springsvn.service.ConfigService;
 import dev.blackbeast.springsvn.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,9 @@ public class HistoryController {
 
     @Autowired
     HistoryService historyService;
+
+    @Autowired
+    ConfigService configService;
 
     @RequestMapping(value = "/history", method = RequestMethod.GET)
     public String showHistory(@RequestParam(value = "path", required = false) String path,
@@ -46,6 +50,7 @@ public class HistoryController {
         model.addAttribute("revisionList", revisionList);
         model.addAttribute("sort", sort != null ? sort : "none");
         model.addAttribute("order", order != null ? order : "none");
+        model.addAttribute("timeThreshold", configService.getAppNewItemTimeThreshold());
         return "history";
     }
 }

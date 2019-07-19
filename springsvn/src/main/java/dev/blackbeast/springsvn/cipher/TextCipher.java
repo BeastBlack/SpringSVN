@@ -1,6 +1,7 @@
 package dev.blackbeast.springsvn.cipher;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
@@ -9,15 +10,19 @@ import javax.crypto.spec.SecretKeySpec;
 
 @Component
 public class TextCipher {
-    private final String CIPHER_KEY = "rAAK8fJfBQ9tLZ4H";
-    private final String CIPHER_INIT_VECTOR = "dUf3Ew9CNLUKeLmR";
+
+    @Value("${cipher.key}")
+    private String cipherKey;
+
+    @Value("${cipher.init-vector}")
+    private String cipherInitVector;
 
     public String encrypt(String value) {
-        return encrypt(CIPHER_KEY, CIPHER_INIT_VECTOR, value);
+        return encrypt(cipherKey, cipherInitVector, value);
     }
 
     public String decrypt(String value) {
-        return decrypt(CIPHER_KEY, CIPHER_INIT_VECTOR, value);
+        return decrypt(cipherKey, cipherInitVector, value);
     }
 
     private String encrypt(String key, String initVector, String value) {

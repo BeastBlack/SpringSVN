@@ -11,5 +11,14 @@ public class Revision {
     private String authorName;
     private Date date;
     private String timeAgo;
+    private Long timeFromNow;
     private String message;
+
+    public void setDate(Date date) {
+        this.date = date;
+
+        if(date != null) {
+            this.timeFromNow = (new Date().getTime() - this.date.getTime()) / 1000L;
+        }
+    }
 }

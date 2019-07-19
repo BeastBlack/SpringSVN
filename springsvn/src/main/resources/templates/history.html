@@ -69,7 +69,7 @@
         <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Wprowadzone zmiany'}"></a></th>
         </thead>
         <tbody th:each="revision : ${revisionList}">
-        <tr>
+        <tr th:classappend="${revision.timeFromNow <= timeThreshold} ? table-success : table">
             <td style="vertical-align: middle; font-weight:bold;" th:text="${revision.id}"></td>
             <td style="vertical-align: middle;">
                 <div th:text="${#dates.format(revision.date, 'dd.MM.yyyy HH:mm:ss')}"></div>
@@ -78,7 +78,7 @@
             <td style="vertical-align: middle;" th:text="${revision.authorId}"></td>
             <td style="vertical-align: middle;" th:text="${revision.authorName}"></td>
             <td style="vertical-align: middle;"><div th:utext="${revision.message}"></div></td>
-            <td><a class="btn btn-secondary" th:text="Przeglądaj" th:href="${'/diff?revision=' + revision.id}"></a></td>
+            <td><a class="btn" th:classappend="${revision.timeFromNow <= timeThreshold} ? btn-success : btn-secondary" th:text="Przeglądaj" th:href="${'/diff?revision=' + revision.id}"></a></td>
         </tbody>
     </table>
 </div>

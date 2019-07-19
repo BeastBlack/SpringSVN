@@ -15,4 +15,5 @@ public class ConfigDto {
     private Boolean appBugTrackerIntegration;
     private String appBugTrackerPattern;
     private String appBugTrackerReplace;
+    private Long appNewItemTimeThreshold;
 }
