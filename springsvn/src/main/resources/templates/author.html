@@ -33,11 +33,9 @@
             <p th:if="${#fields.hasErrors('authorName')}" th:errors="*{authorName}"/>
         </div>
 
-        <div>
+        <div class="btn-group float-left" role="group" aria-label="Main menu">
             <button type="submit" class="btn btn-primary float-left">Zapisz</button>
-        </div>
-        <div>
-            <a class="btn btn-info float-left" th:text="${'Powrót'}" th:href="${'/authors'}"></a>
+            <a class="btn btn-secondary float-left" th:text="${'Powrót'}" th:href="${'/authors'}"></a>
         </div>
     </form>
 </div>

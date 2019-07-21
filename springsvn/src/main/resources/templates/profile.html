@@ -32,14 +32,10 @@
             <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
         </div>
 
-        <div>
+        <div class="btn-group float-left" role="group" aria-label="Main menu">
             <button type="submit" class="btn btn-primary float-left">Zatwierdź</button>
-        </div>
-        <div>
-            <a th:if="${loggedUserProfile}" class="btn btn-info float-left" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
-        </div>
-        <div>
-            <a th:if="${loggedUserProfile == null}" class="btn btn-info float-left" th:text="${'Powrót'}" th:href="${'/users'}"></a>
+            <a th:if="${loggedUserProfile}" class="btn btn-secondary float-left" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
+            <a th:if="${loggedUserProfile == null}" class="btn btn-secondary float-left" th:text="${'Powrót'}" th:href="${'/users'}"></a>
         </div>
     </form>
 </div>

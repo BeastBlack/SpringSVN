@@ -17,13 +17,11 @@
     <div th:if="${message == 'user_exists'}" class="alert alert-danger" role="alert">
         <a th:text="${'Autor o podanym identyfikatorze już istnieje.'}"></a>
     </div>
-    <div>
+    <div class="btn-group float-left" role="group" aria-label="Main menu">
         <a class="btn btn-success float-left" th:text="${'Nowy autor'}" th:href="${'/authors/add'}"></a>
+        <a class="btn btn-secondary float-left" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
     </div>
-    <div class="float-right">
-        <a class = "btn btn-info" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
-    </div>
-    <br>
+    <p>&nbsp;</p>
 </div>
 <div class="container-fluid">
     <table class="table table-active">
@@ -35,18 +33,17 @@
         </thead>
         <tbody th:each="author : ${authors}">
         <tr>
-            <td style="vertical-align: middle; font-weight: bold;" th:text=${author.authorId}></td>
+            <td style="vertical-align: middle; font-weight: bold;"><a th:text="${author.authorId}" th:href="${'/authors/edit/' + author.id}"></a></td>
             <td style="vertical-align: middle;" th:text=${author.authorName}></td>
             <td><a class="btn btn-info" th:href="${'/authors/edit/' + author.id}">Edytuj</a></td>
             <td><a class="btn btn-danger" th:href="${'/authors/delete/' + author.id}">Usuń</a></td>
         </tr>
         </tbody>
     </table>
-    <div>
+
+    <div class="btn-group float-left" role="group" aria-label="Main menu">
         <a class="btn btn-success float-left" th:text="${'Nowy autor'}" th:href="${'/authors/add'}"></a>
-    </div>
-    <div>
-        <a class="btn btn-info float-left" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
+        <a class="btn btn-secondary float-left" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
     </div>
 </div>
 </body>

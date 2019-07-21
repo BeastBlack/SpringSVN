@@ -73,14 +73,10 @@
             <p th:if="${#fields.hasErrors('appNewItemTimeThreshold')}" th:errors="*{appNewItemTimeThreshold}"/>
         </div>
 
-        <div>
+        <div class="btn-group float-left" role="group" aria-label="Main menu">
             <button type="submit" class="btn btn-primary float-left">Zapisz konfigurację</button>
-        </div>
-        <div th:if="${config.svnRepositoryAddress != '' and config.svnRepositoryAddress != null}">
-            <a class="btn btn-secondary float-left" th:text="${'Załaduj ponownie konfigurację'}" th:href="${'/refresh'}"></a>
-        </div>
-        <div th:if="${config.svnRepositoryAddress != '' and config.svnRepositoryAddress != null}">
-            <a class="btn btn-info float-left" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
+            <a th:if="${config.svnRepositoryAddress != '' and config.svnRepositoryAddress != null}" class="btn btn-warning float-left" th:text="${'Załaduj ponownie konfigurację'}" th:href="${'/refresh'}"></a>
+            <a th:if="${config.svnRepositoryAddress != '' and config.svnRepositoryAddress != null}" class="btn btn-secondary float-left" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
         </div>
     </form>
     <div class="float-right">

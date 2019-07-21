@@ -14,37 +14,24 @@
     <a th:text="${'Uwaga: Aplikacja działa w trybie dostępu anonimowego. Po utworzeniu konta administratora wyłącz dostęp anonimowy w ustawieniach aplikacji i wykonaj jej restart.'}"></a>
     <a th:href="${'/config'}">Przejdź do ustawień aplikacji.</a>
 </div>
-<div class="container-fluid">
+<div class="container-fluid" style="margin: 2px;">
     <div class="float-left" th:if="${loggedUser.username != null}">
         <h4><span class="badge badge-primary" th:text="${'Witaj, ' + loggedUser.name + ' (' + loggedUser.username + ')!'}"></span></h4>
     </div>
     <div class="float-left" th:if="${loggedUser.username == null}">
         <strong><a th:text="${'Witaj, Anonimowy użytkowniku!'}"></a></strong>
     </div>
-    <div class="float-right" th:if="${loggedUser.isAdmin}">
-        <a class = "btn btn-success" th:text="${'Ustawienia aplikacji'}" th:href="${'/config'}"></a>
+    <div class="btn-group float-right" role="group" aria-label="Main menu">
+        <a class="btn btn-primary" th:if="${loggedUser.username != null}" th:text="${'Profil użytkownika'}" th:href="${'/profile'}"></a>
+        <a class="btn btn-secondary" th:if="${loggedUser.isAdmin}" th:text="${'Rejestracja użytkownika'}" th:href="${'/register'}"></a>
+        <a class="btn btn-secondary" th:if="${loggedUser.isAdmin or loggedUser.username == null}" th:text="${'Zarządzaj użytkownikami'}" th:href="${'/users'}"></a>
+        <a class="btn btn-secondary" th:if="${loggedUser.isAdmin}" th:text="${'Zarządzaj autorami'}" th:href="${'/authors'}"></a>
+        <a class="btn btn-success" th:if="${loggedUser.isAdmin}" th:text="${'Ustawienia aplikacji'}" th:href="${'/config'}"></a>
+        <a class="btn btn-danger" th:if="${loggedUser.username != null}" th:text="${'Wyloguj'}" th:href="${'/logout'}" th:method="post"></a>
     </div>
-    <div class="float-right" th:if="${loggedUser.isAdmin}">
-        <a class = "btn btn-warning" th:text="${'Rejestracja użytkownika'}" th:href="${'/register'}"></a>
-    </div>
-    <div class="float-right" th:if="${loggedUser.isAdmin or loggedUser.username == null}">
-        <a class = "btn btn-primary" th:text="${'Zarządzaj użytkownikami'}" th:href="${'/users'}"></a>
-    </div>
-    <div class="float-right" th:if="${loggedUser.isAdmin}">
-        <a class = "btn btn-secondary" th:text="${'Zarządzaj autorami'}" th:href="${'/authors'}"></a>
-    </div>
-    <div class="float-right" th:if="${loggedUser.username != null}">
-        <a class = "btn btn-primary" th:text="${'Profil użytkownika'}" th:href="${'/profile'}"></a>
-    </div>
-    <div class="float-right" th:if="${loggedUser.username != null}">
-        <form action="#" th:action="@{/logout}" method="post">
-            <button type="submit" class="btn btn-danger">Wyloguj</button>
-        </form>
-    </div>
-    <br>
-    <br>
+    <p>&nbsp;</p>
 </div>
-<div class="container-fluid">
+<div class="container-fluid" style="margin: 2px;">
     <form class="form-horizontal" th:object="${location}" th:action="@{/content}" th:method="get">
 
         <div class="form-group">
@@ -59,27 +46,21 @@
             <p th:if="${#fields.hasErrors('revision')}" th:errors="*{revision}"/>
         </div>
 
-        <div>
+        <div class="btn-group float-left" role="group" aria-label="Content menu">
             <button type="submit" class="btn btn-primary float-left">Przejdź</button>
-        </div>
-        <div>
             <a class="btn btn-success float-left" th:text="${'Historia'}" th:href="${'/history?path=' + location.path  + '&revision=' + location.revision}"></a>
-        </div>
-        <div th:if="${location.path != '' and location.path != '/'}">
-            <a class="btn btn-info float-left" th:text="${'Katalog nadrzędny'}" th:href="${'/content?path=' + location.parentPath + '&revision=' + location.revision + '&sort=' + sort + '&order=' + order}"></a>
-        </div>
-        <div th:if="${location.path != '' and location.path != '/'}">
-            <a class="btn btn-danger float-left" th:text="${'Katalog główny (root)'}" th:href="${'/content?path=/&revision=' + location.revision  + '&sort=' + sort + '&order=' + order}"></a>
-        </div>
-        <div>
-            <a class="btn btn-warning float-left" th:text="${'Najnowsza rewizja (HEAD)'}" th:href="${'/content?path=' + location.path  + '&sort=' + sort + '&order=' + order}"></a>
+            <a class="btn btn-info float-left" th:if="${location.path != '' and location.path != '/'}" th:text="${'Katalog nadrzędny'}" th:href="${'/content?path=' + location.parentPath + '&revision=' + location.revision + '&sort=' + sort + '&order=' + order}"></a>
+            <a class="btn btn-info float-left" th:if="${location.path != '' and location.path != '/'}" th:text="${'Katalog główny (root)'}" th:href="${'/content?path=/&revision=' + location.revision  + '&sort=' + sort + '&order=' + order}"></a>
+            <a class="btn btn-secondary float-left" th:text="${'Najnowsza rewizja (HEAD)'}" th:href="${'/content?path=' + location.path  + '&sort=' + sort + '&order=' + order}"></a>
         </div>
     </form>
-    <div class="float-right">
-        <a th:text="${'Ostatnia rewizja: ' + lastRev.id}"></a><br>
-        <a th:text="${'Autor: ' + lastRev.authorId + ' (' + lastRev.authorName + ')'}"></a><br>
-        <a th:text="${'Data: ' + #dates.format(lastRev.date, 'dd.MM.yyyy HH:mm:ss') + ' (' + lastRev.timeAgo + ')'}"></a><br>
-        <a th:text="${'Opis: ' + lastRev.message}"></a><br>
+    <div class="badge badge-warning float-right" style="text-align: left; margin-bottom: 10px">
+        <h6>
+            <a th:text="${'Ostatnia rewizja: ' + lastRev.id}" th:href="${'/diff?revision=' + lastRev.id}"></a><br>
+            <a th:text="${'Autor: ' + lastRev.authorId + ' (' + lastRev.authorName + ')'}"></a><br>
+            <a th:text="${'Data: ' + #dates.format(lastRev.date, 'dd.MM.yyyy HH:mm:ss') + ' (' + lastRev.timeAgo + ')'}"></a><br>
+            <a th:text="${'Opis: ' + lastRev.message}"></a><br>
+        </h6>
     </div>
     <div>
         <table class="table table-active">

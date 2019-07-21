@@ -11,47 +11,48 @@
 </head>
 <body>
 <div class="container-fluid">
-    <form class="form-horizontal" th:object="${location}" th:action="@{/diff}" th:method="get">
+    <div>
+        <form class="form-horizontal" th:object="${location}" th:action="@{/diff}" th:method="get">
 
-        <div class="form-group">
-            <label class="control-label">Ścieżka repozytorium</label>
-            <input type="text" class="form-control" th:field="*{path}"/>
-            <p th:if="${#fields.hasErrors('path')}" th:errors="*{path}"/>
-        </div>
+            <div class="form-group">
+                <label class="control-label">Ścieżka repozytorium</label>
+                <input type="text" class="form-control" th:field="*{path}"/>
+                <p th:if="${#fields.hasErrors('path')}" th:errors="*{path}"/>
+            </div>
 
-        <div class="form-group">
-            <label class="control-label">Rewizja</label>
-            <input type="text" class="form-control" th:field="*{revision}"/>
-            <p th:if="${#fields.hasErrors('revision')}" th:errors="*{revision}"/>
-        </div>
+            <div class="form-group">
+                <label class="control-label">Rewizja</label>
+                <input type="text" class="form-control" th:field="*{revision}"/>
+                <p th:if="${#fields.hasErrors('revision')}" th:errors="*{revision}"/>
+            </div>
 
-        <div class="form-group">
-            <label class="control-label">Rewizja porównywana</label>
-            <input type="text" class="form-control" th:field="*{revisionTo}"/>
-            <p th:if="${#fields.hasErrors('revisionTo')}" th:errors="*{revisionTo}"/>
-        </div>
+            <div class="form-group">
+                <label class="control-label">Rewizja porównywana</label>
+                <input type="text" class="form-control" th:field="*{revisionTo}"/>
+                <p th:if="${#fields.hasErrors('revisionTo')}" th:errors="*{revisionTo}"/>
+            </div>
 
-        <div>
-            <button type="submit" class="btn btn-primary float-left">Porównaj</button>
-        </div>
-        <div>
-            <a class="btn btn-info float-left" th:text="Szczegóły" th:href="${'/diff?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&details=true' + '&sort=' + sort + '&order=' + order}"></a>
-        </div>
-        <div>
-            <a class="btn btn-secondary float-left" th:text="${'Powrót do historii zmian'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision}"></a>
-        </div>
-    </form>
-    <table class="table table-active">
-        <thead class="thead-dark">
-        <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Plik'}" th:href="${'/diff?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&sort=name' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-        </thead>
-        <tbody th:each="file : ${fileList}">
-        <tr>
-            <td th:text="${file}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <textarea cols="150" rows="100" th:text="${diff}" th:if="${diff != null}"></textarea>
+            <div class="btn-group float-left" role="group" aria-label="Main menu">
+                <button type="submit" class="btn btn-primary float-left">Porównaj</button>
+                <a class="btn btn-info float-left" th:text="Szczegóły" th:href="${'/diff?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&details=true' + '&sort=' + sort + '&order=' + order}"></a>
+                <a class="btn btn-secondary float-left" th:text="${'Powrót do historii zmian'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision}"></a>
+            </div>
+        </form>
+        <p>&nbsp;</p>
+    </div>
+    <div>
+        <table class="table table-active">
+            <thead class="thead-dark">
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Plik'}" th:href="${'/diff?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&sort=name' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            </thead>
+            <tbody th:each="file : ${fileList}">
+            <tr>
+                <td th:text="${file}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <textarea cols="150" rows="100" th:text="${diff}" th:if="${diff != null}"></textarea>
+    </div>
 </div>
 </body>
 </html>

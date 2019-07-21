@@ -38,11 +38,9 @@
             <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"/>
         </div>
 
-        <div class="form-group" th:if="${adminEnabled}">
-            <label class="control-label">Administrator:
-                <input type="checkbox" class="form-control" th:field="*{isAdmin}" th:if="${adminEnabled}" checked="unchecked"/>
-                <input type="checkbox" class="form-control" th:field="*{isAdmin}" th:if="${not adminEnabled}" checked="unchecked" disabled="disabled"/>
-            </label>
+        <div class="form-group custom-control custom-checkbox" th:if="${adminEnabled}">
+            <input class="custom-control-input" type="checkbox" th:field="*{isAdmin}" id="isAdmin" checked="unchecked"/>
+            <label class="custom-control-label" for="isAdmin">Administrator</label>
             <p th:if="${#fields.hasErrors('isAdmin')}" th:errors="*{isAdmin}"/>
         </div>
 
@@ -52,11 +50,9 @@
             <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
         </div>
 
-        <div>
+        <div class="btn-group float-left" role="group" aria-label="Main menu">
             <button type="submit" class="btn btn-primary float-left">Zatwierdź</button>
-        </div>
-        <div>
-            <a class="btn btn-info float-left" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
+            <a class="btn btn-secondary float-left" th:text="${'Powrót'}" th:href="${'/content?path=/'}"></a>
         </div>
     </form>
 </div>

@@ -16,7 +16,6 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull(message = "Identyfikator autora nie może być pusty")
-    @Min(value = 1L, message = "Identyfikator autora nie może być pusty")
     private String authorId;
     private String authorName;
 }

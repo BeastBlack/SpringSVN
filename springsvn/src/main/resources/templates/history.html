@@ -11,76 +11,74 @@
 </head>
 <body>
 <div class="container-fluid">
-    <form class="form-horizontal" th:object="${location}" th:action="@{/history}" th:method="get">
+    <div style="margin-top: 2px; margin-bottom: 10px">
+        <form class="form-horizontal" th:object="${location}" th:action="@{/history}" th:method="get">
 
-        <div class="form-group">
-            <label class="control-label">Ścieżka repozytorium:</label>
-            <input type="text" class="form-control" th:field="*{path}"/>
-            <p th:if="${#fields.hasErrors('path')}" th:errors="*{path}"/>
-        </div>
+            <div class="form-group">
+                <label class="control-label">Ścieżka repozytorium:</label>
+                <input type="text" class="form-control" th:field="*{path}"/>
+                <p th:if="${#fields.hasErrors('path')}" th:errors="*{path}"/>
+            </div>
 
-        <div class="form-group">
-            <label class="control-label">Rewizja Od lub Data Od:</label>
-            <input type="text" class="form-control" th:field="*{thresholdFrom}"/>
-            <p th:if="${#fields.hasErrors('thresholdFrom')}" th:errors="*{thresholdFrom}"/>
-        </div>
+            <div class="form-group">
+                <label class="control-label">Rewizja Od lub Data Od:</label>
+                <input type="text" class="form-control" th:field="*{thresholdFrom}"/>
+                <p th:if="${#fields.hasErrors('thresholdFrom')}" th:errors="*{thresholdFrom}"/>
+            </div>
 
-        <div class="form-group">
-            <label class="control-label">Rewizja Do lub Data Do:</label>
-            <input type="text" class="form-control" th:field="*{thresholdTo}"/>
-            <p th:if="${#fields.hasErrors('thresholdTo')}" th:errors="*{thresholdTo}"/>
-        </div>
+            <div class="form-group">
+                <label class="control-label">Rewizja Do lub Data Do:</label>
+                <input type="text" class="form-control" th:field="*{thresholdTo}"/>
+                <p th:if="${#fields.hasErrors('thresholdTo')}" th:errors="*{thresholdTo}"/>
+            </div>
 
-        <div class="form-group">
-            <label class="control-label">Maksymalna liczba prezentowanych rewizji:</label>
-            <input type="text" class="form-control" th:field="*{revisionMax}"/>
-            <p th:if="${#fields.hasErrors('revisionMax')}" th:errors="*{revisionMax}"/>
-        </div>
+            <div class="form-group">
+                <label class="control-label">Maksymalna liczba prezentowanych rewizji:</label>
+                <input type="text" class="form-control" th:field="*{revisionMax}"/>
+                <p th:if="${#fields.hasErrors('revisionMax')}" th:errors="*{revisionMax}"/>
+            </div>
 
-        <div class="form-group">
-            <label class="control-label">Szukana fraza:</label>
-            <input type="text" class="form-control" th:field="*{searchText}"/>
-            <p th:if="${#fields.hasErrors('searchText')}" th:errors="*{searchText}"/>
-        </div>
+            <div class="form-group">
+                <label class="control-label">Szukana fraza:</label>
+                <input type="text" class="form-control" th:field="*{searchText}"/>
+                <p th:if="${#fields.hasErrors('searchText')}" th:errors="*{searchText}"/>
+            </div>
 
-        <div>
-            <button type="submit" class="btn btn-primary float-left">Przejdź</button>
-        </div>
-        <div th:if="${location.path != '' and location.path != '/'}">
-            <a class="btn btn-info float-left" th:text="${'Katalog nadrzędny'}" th:href="${'/history?path=' + location.parentPath + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=' + sort + '&order=' + order}"></a>
-        </div>
-        <div th:if="${location.path != '' and location.path != '/'}">
-            <a class="btn btn-success float-left" th:text="${'Katalog główny (root)'}" th:href="${'/history?path=/&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=' + sort + '&order=' + order}"></a>
-        </div>
-        <div>
-            <a class="btn btn-warning float-left" th:text="${'Najnowsza rewizja (HEAD)'}" th:href="${'/history?path=' + location.path + '&revisionMax=' + location.revisionMax + '&sort=' + sort + '&order=' + order}"></a>
-        </div>
-        <div>
-            <a class="btn btn-secondary float-left" th:text="${'Powrót do repozytorium'}" th:href="${'/content?path=' + location.path}"></a>
-        </div>
-    </form>
-    <table class="table table-active">
-        <thead class="thead-dark">
-        <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Rewizja'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=revision' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-        <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Data zmiany'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=date' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-        <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Autor'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=authorId' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-        <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Dane autora'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=authorName' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-        <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Opis'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=message' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
-        <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Wprowadzone zmiany'}"></a></th>
-        </thead>
-        <tbody th:each="revision : ${revisionList}">
-        <tr th:classappend="${revision.timeFromNow <= timeThreshold} ? table-success : table">
-            <td style="vertical-align: middle; font-weight:bold;" th:text="${revision.id}"></td>
-            <td style="vertical-align: middle;">
-                <div th:text="${#dates.format(revision.date, 'dd.MM.yyyy HH:mm:ss')}"></div>
-                <div style="font-style: italic;" th:text="${'(' + revision.timeAgo + ')'}"></div>
-            </td>
-            <td style="vertical-align: middle;" th:text="${revision.authorId}"></td>
-            <td style="vertical-align: middle;" th:text="${revision.authorName}"></td>
-            <td style="vertical-align: middle;"><div th:utext="${revision.message}"></div></td>
-            <td><a class="btn" th:classappend="${revision.timeFromNow <= timeThreshold} ? btn-success : btn-secondary" th:text="Przeglądaj" th:href="${'/diff?revision=' + revision.id}"></a></td>
-        </tbody>
-    </table>
+            <div class="btn-group float-left" role="group" aria-label="Main menu">
+                <button type="submit" class="btn btn-primary float-left">Przejdź</button>
+                <a th:if="${location.path != '' and location.path != '/'}" class="btn btn-info float-left" th:text="${'Katalog nadrzędny'}" th:href="${'/history?path=' + location.parentPath + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=' + sort + '&order=' + order}"></a>
+                <a th:if="${location.path != '' and location.path != '/'}" class="btn btn-info float-left" th:text="${'Katalog główny (root)'}" th:href="${'/history?path=/&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=' + sort + '&order=' + order}"></a>
+                <a class="btn btn-warning float-left" th:text="${'Najnowsza rewizja (HEAD)'}" th:href="${'/history?path=' + location.path + '&revisionMax=' + location.revisionMax + '&sort=' + sort + '&order=' + order}"></a>
+                <a class="btn btn-secondary float-left" th:text="${'Powrót do repozytorium'}" th:href="${'/content?path=' + location.path}"></a>
+            </div>
+        </form>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+    </div>
+    <div>
+        <table class="table table-active">
+            <thead class="thead-dark">
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Rewizja'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=revision' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Data zmiany'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=date' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Autor'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=authorId' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Dane autora'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=authorName' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Opis'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&revisionMax=' + location.revisionMax + '&sort=message' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
+            <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Wprowadzone zmiany'}"></a></th>
+            </thead>
+            <tbody th:each="revision : ${revisionList}">
+            <tr th:classappend="${revision.timeFromNow <= timeThreshold} ? table-success : table">
+                <td style="vertical-align: middle; font-weight:bold;" th:text="${revision.id}"></td>
+                <td style="vertical-align: middle;">
+                    <div th:text="${#dates.format(revision.date, 'dd.MM.yyyy HH:mm:ss')}"></div>
+                    <div style="font-style: italic;" th:text="${'(' + revision.timeAgo + ')'}"></div>
+                </td>
+                <td style="vertical-align: middle;" th:text="${revision.authorId}"></td>
+                <td style="vertical-align: middle;" th:text="${revision.authorName}"></td>
+                <td style="vertical-align: middle;"><div th:utext="${revision.message}"></div></td>
+                <td><a class="btn" th:classappend="${revision.timeFromNow <= timeThreshold} ? btn-success : btn-secondary" th:text="Przeglądaj" th:href="${'/diff?revision=' + revision.id}"></a></td>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
