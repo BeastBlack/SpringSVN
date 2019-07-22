@@ -10,13 +10,7 @@
     <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="float-right">
-        <a class = "btn btn-info" th:text="${'Powrót'}" th:href="${'/authors'}"></a>
-    </div>
-    <br>
-</div>
-<div class="container-fluid">
+<div class="container-fluid" style="margin-top: 5px">
     <form class="form-horizontal" th:object="${author}" th:action="@{/authors}" th:method="post">
         <input type="hidden" th:field="*{id}"/>
 

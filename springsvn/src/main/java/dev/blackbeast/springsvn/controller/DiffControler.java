@@ -43,7 +43,7 @@ public class DiffControler {
 
         if(details != null)
             if(details)
-                model.addAttribute("diff", diff);
+                model.addAttribute("lines", diffService.getLines(diff));
 
         model.addAttribute("sort", sort != null ? sort : "none");
         model.addAttribute("order", order != null ? order : "none");

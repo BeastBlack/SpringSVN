@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -55,5 +56,19 @@ public class DiffService {
         }
 
         return files;
+    }
+
+    public List<String> getLines(String diff) {
+        String[] lines = diff.split("\n");
+
+        if(lines != null) {
+            List<String> linesList = new ArrayList<>();
+            for(String line : lines)
+                if(!line.trim().isEmpty() && !line.startsWith("==="))
+                    linesList.add(line.replace("+++", "").replace("---", "").trim());
+
+            return linesList;
+        } else
+            return null;
     }
 }

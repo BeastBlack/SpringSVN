@@ -36,22 +36,41 @@
                 <button type="submit" class="btn btn-primary float-left">Porównaj</button>
                 <a class="btn btn-info float-left" th:text="Szczegóły" th:href="${'/diff?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&details=true' + '&sort=' + sort + '&order=' + order}"></a>
                 <a class="btn btn-secondary float-left" th:text="${'Powrót do historii zmian'}" th:href="${'/history?path=' + location.path + '&revision=' + location.revision}"></a>
+                <a class="btn btn-secondary float-left" th:text="${'Powrót do repozytorium'}" th:href="${'/content?path=' + location.path + '&revision=' + location.revision}"></a>
             </div>
         </form>
         <p>&nbsp;</p>
     </div>
-    <div>
+    <tr>
         <table class="table table-active">
             <thead class="thead-dark">
             <th><a class="btn btn-dark" style="font-weight:bold;" th:text="${'Plik'}" th:href="${'/diff?path=' + location.path + '&revision=' + location.revision + '&revisionTo=' + location.revisionTo + '&sort=name' + (order == 'asc' ? '&order=desc' : '&order=asc')}"></a></th>
             </thead>
             <tbody th:each="file : ${fileList}">
             <tr>
-                <td th:text="${file}"></td>
+                <td><a th:text="${file}"></a></td>
             </tr>
             </tbody>
         </table>
-        <textarea cols="150" rows="100" th:text="${diff}" th:if="${diff != null}"></textarea>
+        <table class="table table-active">
+            <thead class="thead-dark">
+                <th><a th:text="${'Szczegóły zmian'}"></a></th>
+            </thead>
+            <tbody th:each="line : ${lines}" th:if="${lines != null}">
+                <tr class="table" th:unless="${#strings.startsWith(line, '+') or #strings.startsWith(line, '-') or #strings.startsWith(line, 'Index:')}">
+                    <td><a th:text="${line}" th:unless="${#strings.startsWith(line, '+') or #strings.startsWith(line, '-')}"></a></td>
+                </tr>
+                <tr style="text-align: center;" class="table-warning" th:if="${#strings.startsWith(line, 'Index:')}">
+                    <td><a style="font-weight: bold" th:text="${line}" th:if="${#strings.startsWith(line, 'Index')}"></a></td>
+                </tr>
+                <tr class="table-success" th:if="${#strings.startsWith(line, '+')}">
+                    <td><a th:text="${line}" th:if="${#strings.startsWith(line, '+')}"></a></td>
+                </tr>
+                <tr class="table-danger" th:if="${#strings.startsWith(line, '-')}">
+                    <td><a th:text="${line}" th:if="${#strings.startsWith(line, '-')}"></a></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </body>

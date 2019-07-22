@@ -21,7 +21,7 @@
 <div th:if="${showMessage == 'REGISTER_EXISTS'}" class="alert alert-warning" role="alert">
     <a th:text="${'Użytkownik o podanym loginie jest już zarejestrowany. Wybierz inny login.'}"></a>
 </div>
-<div class="container-fluid">
+<div class="container-fluid" style="margin-top: 5px">
     <form class="form-horizontal" th:object="${user}" th:action="@{/register}" th:method="post">
         <input type="hidden" th:field="*{id}"/>
 
