@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>dev.blackbeast</groupId>
 	<artifactId>springsvn</artifactId>
-	<version>1.0.21</version>
+	<version>1.0.22</version>
 	<name>springsvn</name>
 	<description>SpringSVN is web-based SVN client.</description>
 
