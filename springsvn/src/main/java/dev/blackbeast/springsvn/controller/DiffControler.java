@@ -1,7 +1,9 @@
 package dev.blackbeast.springsvn.controller;
 
 import dev.blackbeast.springsvn.domain.Location;
+import dev.blackbeast.springsvn.dto.UserDto;
 import dev.blackbeast.springsvn.service.DiffService;
+import dev.blackbeast.springsvn.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,9 @@ public class DiffControler {
 
     @Autowired
     DiffService diffService;
+
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = "/diff", method = RequestMethod.GET)
     public String showHistory(@RequestParam(value = "path", required = false) String path,
@@ -47,6 +52,8 @@ public class DiffControler {
 
         model.addAttribute("sort", sort != null ? sort : "none");
         model.addAttribute("order", order != null ? order : "none");
+
+        model.addAttribute("loggedUser", new UserDto(userService.getLoggedUser()));
 
         return "diff";
     }

@@ -10,6 +10,7 @@
     <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 </head>
 <body>
+<div th:insert="/menu::menu"></div>
 <div class="container-fluid">
     <div>
         <form class="form-horizontal" th:object="${location}" th:action="@{/diff}" th:method="get">
@@ -52,11 +53,11 @@
             </tr>
             </tbody>
         </table>
-        <table class="table table-active">
+        <table class="table table-active" th:if="${lines != null}">
             <thead class="thead-dark">
                 <th><a th:text="${'Szczegóły zmian'}"></a></th>
             </thead>
-            <tbody th:each="line : ${lines}" th:if="${lines != null}">
+            <tbody th:each="line : ${lines}">
                 <tr class="table" th:unless="${#strings.startsWith(line, '+') or #strings.startsWith(line, '-') or #strings.startsWith(line, 'Index:')}">
                     <td><a th:text="${line}" th:unless="${#strings.startsWith(line, '+') or #strings.startsWith(line, '-')}"></a></td>
                 </tr>

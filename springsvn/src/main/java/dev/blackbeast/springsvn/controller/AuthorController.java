@@ -1,7 +1,9 @@
 package dev.blackbeast.springsvn.controller;
 
 import dev.blackbeast.springsvn.domain.Author;
+import dev.blackbeast.springsvn.dto.UserDto;
 import dev.blackbeast.springsvn.service.AuthorService;
+import dev.blackbeast.springsvn.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,9 @@ public class AuthorController {
     @Autowired
     AuthorService authorService;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(value = "/authors", method = RequestMethod.GET)
     public String showAuthors(Model model,
                               @RequestParam(value = "message", required = false) String message) {
@@ -34,6 +39,8 @@ public class AuthorController {
 
         if(message != null)
             model.addAttribute("message", message);
+
+        model.addAttribute("loggedUser", new UserDto(userService.getLoggedUser()));
 
         return "authors";
     }
@@ -51,6 +58,7 @@ public class AuthorController {
         Author author = authorService.get(id);
 
         model.addAttribute("author", author);
+        model.addAttribute("loggedUser", new UserDto(userService.getLoggedUser()));
         return "author";
     }
 
@@ -59,6 +67,7 @@ public class AuthorController {
         Author author = new Author();
 
         model.addAttribute("author", author);
+        model.addAttribute("loggedUser", new UserDto(userService.getLoggedUser()));
         return "author";
     }
 

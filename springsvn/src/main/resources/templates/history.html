@@ -10,6 +10,7 @@
     <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 </head>
 <body>
+<div th:insert="/menu::menu"></div>
 <div class="container-fluid">
     <div style="margin-top: 2px; margin-bottom: 10px">
         <form class="form-horizontal" th:object="${location}" th:action="@{/history}" th:method="get">

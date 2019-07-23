@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SpringSVN: Repozytorium</title>
+    <meta http-equiv="Content-Type" location="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:fragment="menu" class="menu">
+    <div th:if="${loggedUser.username == null}" class="alert alert-danger" role="alert">
+        <a th:text="${'Uwaga: Aplikacja działa w trybie dostępu anonimowego. Po utworzeniu konta administratora wyłącz dostęp anonimowy w ustawieniach aplikacji i wykonaj jej restart.'}"></a>
+        <a th:href="${'/config'}">Przejdź do ustawień aplikacji.</a>
+    </div>
+    <div class="container-fluid" style="margin: 2px;">
+        <div class="float-left" th:if="${loggedUser.username != null}">
+            <h4><span class="badge badge-primary" th:text="${'Witaj, ' + loggedUser.name + ' (' + loggedUser.username + ')!'}"></span></h4>
+        </div>
+        <div class="float-left" th:if="${loggedUser.username == null}">
+            <strong><a th:text="${'Witaj, Anonimowy użytkowniku!'}"></a></strong>
+        </div>
+        <div class="btn-group float-right" role="group" aria-label="Main menu">
+            <a class="btn btn-primary" th:if="${loggedUser.username != null}" th:text="${'Profil użytkownika'}" th:href="${'/profile'}"></a>
+            <a class="btn btn-secondary" th:if="${loggedUser.isAdmin}" th:text="${'Rejestracja użytkownika'}" th:href="${'/register'}"></a>
+            <a class="btn btn-secondary" th:if="${loggedUser.isAdmin or loggedUser.username == null}" th:text="${'Zarządzaj użytkownikami'}" th:href="${'/users'}"></a>
+            <a class="btn btn-secondary" th:if="${loggedUser.isAdmin}" th:text="${'Zarządzaj autorami'}" th:href="${'/authors'}"></a>
+            <a class="btn btn-success" th:if="${loggedUser.isAdmin}" th:text="${'Ustawienia aplikacji'}" th:href="${'/config'}"></a>
+            <a class="btn btn-danger" th:if="${loggedUser.username != null}" th:text="${'Wyloguj'}" th:href="${'/logout'}" th:method="post"></a>
+        </div>
+        <p>&nbsp;</p>
+    </div>
+</div>
+</body>

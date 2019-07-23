@@ -1,8 +1,10 @@
 package dev.blackbeast.springsvn.controller;
 
 import dev.blackbeast.springsvn.dto.ConfigDto;
+import dev.blackbeast.springsvn.dto.UserDto;
 import dev.blackbeast.springsvn.service.AuthorService;
 import dev.blackbeast.springsvn.service.ConfigService;
+import dev.blackbeast.springsvn.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,9 @@ public class ConfigController {
 
     @Autowired
     AuthorService authorService;
+
+    @Autowired
+    UserService userService;
 
     @Value("${app.version}")
     private String appVersion;
@@ -45,6 +50,8 @@ public class ConfigController {
             model.addAttribute("message", message);
 
         model.addAttribute("version", appVersion);
+
+        model.addAttribute("loggedUser", new UserDto(userService.getLoggedUser()));
 
         return "config";
     }

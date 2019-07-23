@@ -1,6 +1,7 @@
 package dev.blackbeast.springsvn.controller;
 
 import dev.blackbeast.springsvn.domain.User;
+import dev.blackbeast.springsvn.dto.UserDto;
 import dev.blackbeast.springsvn.dto.UserProfileDto;
 import dev.blackbeast.springsvn.service.ConfigService;
 import dev.blackbeast.springsvn.service.UserService;
@@ -42,6 +43,8 @@ public class UserController {
 
         model.addAttribute("user", new User());
         model.addAttribute("adminEnabled", adminEnabled);
+        model.addAttribute("loggedUser", new UserDto(userService.getLoggedUser()));
+        model.addAttribute("adminEnabled", configService.isAppAnonAccess());
 
         return "user";
     }
@@ -54,13 +57,12 @@ public class UserController {
             if(!userService.exists(user.getUsername())) {
                 userService.save(user);
                 model.addAttribute("showMessage", "REGISTER_OK");
-                model.addAttribute("user", new User());
-                model.addAttribute("adminEnabled", configService.isAppAnonAccess());
-            } else {
+            } else
                 model.addAttribute("showMessage", "REGISTER_EXISTS");
-                model.addAttribute("user", new User());
-                model.addAttribute("adminEnabled", configService.isAppAnonAccess());
-            }
+
+            model.addAttribute("user", new User());
+            model.addAttribute("adminEnabled", configService.isAppAnonAccess());
+            model.addAttribute("loggedUser", new UserDto(userService.getLoggedUser()));
 
             return "user";
         }
@@ -80,6 +82,8 @@ public class UserController {
 
         if(message != null)
             model.addAttribute("message", message);
+
+        model.addAttribute("loggedUser", new UserDto(loggedUser));
 
         return "users";
     }
@@ -123,6 +127,7 @@ public class UserController {
     public String editUser(Model model, @PathVariable("id") Long id) {
         UserProfileDto profile = new UserProfileDto(userService.get(id));
         model.addAttribute("user", profile);
+        model.addAttribute("loggedUser", new UserDto(userService.getLoggedUser()));
 
         return "profile";
     }
@@ -147,6 +152,8 @@ public class UserController {
         UserProfileDto profile = new UserProfileDto(loggedUser);
         model.addAttribute("user", profile);
         model.addAttribute("loggedUserProfile", Boolean.TRUE);
+        model.addAttribute("loggedUser", new UserDto(userService.getLoggedUser()));
+
         return "profile";
     }
 }

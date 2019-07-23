@@ -286,7 +286,7 @@ public class SVNUtils {
             diffGenerator.setBasePath(new File(""));
 
             final SvnDiff diff = svnOperationFactory.createDiff();
-            diff.setSources(SvnTarget.fromURL(SVNURL.parseURIEncoded(getAbsoluteSvnPath(path)), SVNRevision.create(revision)), SvnTarget.fromURL(SVNURL.parseURIEncoded(getAbsoluteSvnPath(path)), SVNRevision.create(revisionTo)));
+            diff.setSources(SvnTarget.fromURL(SVNURL.parseURIEncoded(getAbsoluteSvnPath(path)), SVNRevision.create(revisionTo)), SvnTarget.fromURL(SVNURL.parseURIEncoded(getAbsoluteSvnPath(path)), SVNRevision.create(revision)));
             diff.setDiffGenerator(diffGenerator);
             diff.setOutput(byteArrayOutputStream);
             diff.run();
