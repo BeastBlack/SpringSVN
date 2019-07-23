@@ -23,6 +23,7 @@
             <strong><a th:text="${'Witaj, Anonimowy użytkowniku!'}"></a></strong>
         </div>
         <div class="btn-group float-right" role="group" aria-label="Main menu">
+            <a class="btn btn-primary" th:text="${'Repozytorium'}" th:href="${'/content?path=/'}"></a>
             <a class="btn btn-primary" th:if="${loggedUser.username != null}" th:text="${'Profil użytkownika'}" th:href="${'/profile'}"></a>
             <a class="btn btn-secondary" th:if="${loggedUser.isAdmin}" th:text="${'Rejestracja użytkownika'}" th:href="${'/register'}"></a>
             <a class="btn btn-secondary" th:if="${loggedUser.isAdmin or loggedUser.username == null}" th:text="${'Zarządzaj użytkownikami'}" th:href="${'/users'}"></a>
