@@ -22,8 +22,12 @@
 <div th:if="${showMessage == 'REGISTER_EXISTS'}" class="alert alert-warning" role="alert">
     <a th:text="${'Użytkownik o podanym loginie jest już zarejestrowany. Wybierz inny login.'}"></a>
 </div>
-<div class="container-fluid" style="margin-top: 5px">
-    <form class="form-horizontal" th:object="${user}" th:action="@{/register}" th:method="post">
+<div style="margin: 5px" th:if="${loggedUser.username == null and (not appAnonAccess)}">
+    <p style="text-align:center;"><img src="favicon.ico" height="256" width="256"></p>
+</div>
+<div class="container-fluid">
+    <p th:if="${loggedUser.username != null}">&nbsp;</p>
+    <form class="form-horizontal col-md-4 offset-md-4" th:object="${user}" th:action="@{/register}" th:method="post">
         <input type="hidden" th:field="*{id}"/>
 
         <div class="form-group">

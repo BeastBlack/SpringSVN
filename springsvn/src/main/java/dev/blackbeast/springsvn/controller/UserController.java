@@ -44,7 +44,7 @@ public class UserController {
         model.addAttribute("user", new User());
         model.addAttribute("adminEnabled", adminEnabled);
         model.addAttribute("loggedUser", new UserDto(userService.getLoggedUser()));
-        model.addAttribute("adminEnabled", configService.isAppAnonAccess());
+        model.addAttribute("appAnonAccess", configService.isAppAnonAccess());
 
         return "user";
     }

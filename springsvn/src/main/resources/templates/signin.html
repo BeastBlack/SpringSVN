@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>SpringSVN: Zaloguj</title>
+    <meta http-equiv="Content-Type" location="text/html; charset=UTF-8" />
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+
+    <script th:src="@{/webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:if="${param.error}" class="alert alert-danger" role="alert">
+    <a>Niepoprawna nazwa użytkownika i\lub hasło.</a>
+</div>
+<div th:if="${param.logout}" class="alert alert-success" role="alert">
+    <a>Zostałeś pomyślnie wylogowany.</a>
+</div>
+<div style="margin: 5px">
+    <p style="text-align:center;"><img src="favicon.ico" height="256" width="256"></p>
+</div>
+<div class="container-fluid">
+    <form class="form col-md-4 offset-md-4" th:action="@{/login}" th:method="post">
+
+        <div class="form-group">
+            <label class="control-label">Nazwa użytkownika:</label>
+            <input type="text" class="form-control" name="username"/>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Hasło:</label>
+            <input type="password" class="form-control" name="password"/>
+        </div>
+
+        <div class="btn-group float-left" role="group" aria-label="Main menu">
+            <button type="submit" class="btn btn-primary">Zaloguj</button>
+            <a class="btn btn-secondary float-left" th:text="${'Przejdź do rejestracji'}" th:href="${'/register'}"></a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

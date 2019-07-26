@@ -12,7 +12,8 @@
 <body>
 <div th:insert="/menu::menu"></div>
 <div class="container-fluid" style="margin-top: 5px">
-    <form class="form-horizontal" th:object="${author}" th:action="@{/authors}" th:method="post">
+    <form class="form-horizontal col-md-4 offset-md-4" th:object="${author}" th:action="@{/authors}" th:method="post">
+        <p>&nbsp;</p>
         <input type="hidden" th:field="*{id}"/>
 
         <div class="form-group">

@@ -15,7 +15,7 @@
         <a th:text="${'Uwaga: Aplikacja działa w trybie dostępu anonimowego. Po utworzeniu konta administratora wyłącz dostęp anonimowy w ustawieniach aplikacji i wykonaj jej restart.'}"></a>
         <a th:href="${'/config'}">Przejdź do ustawień aplikacji.</a>
     </div>
-    <div class="container-fluid" style="margin: 2px;">
+    <div class="container-fluid" style="margin-top: 2px; margin-bottom: 2px">
         <div class="float-left" th:if="${loggedUser.username != null}">
             <h4><span class="badge badge-primary" th:text="${'Witaj, ' + loggedUser.name + ' (' + loggedUser.username + ')!'}"></span></h4>
         </div>
