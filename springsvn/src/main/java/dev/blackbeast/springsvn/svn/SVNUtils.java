@@ -63,6 +63,7 @@ public class SVNUtils {
             revision.setMessage(configService.isAppBugTrackerIntegrationEnabled() ?
                     bugTracker.format(entry.getMessage()) :
                     entry.getMessage());
+            revision.setRawMessage(entry.getMessage());
 
             repository.closeSession();
 
@@ -119,6 +120,7 @@ public class SVNUtils {
                         revision.setAuthorId(object.getAuthor());
                         revision.setAuthorName(authorService.getAuthorName(object.getAuthor()));
                         revision.setMessage(object.getCommitMessage());
+                        revision.setRawMessage(object.getCommitMessage());
                         contentEntry.setLastRevision(revision);
 
                         contentEntries.add(contentEntry);
@@ -134,10 +136,12 @@ public class SVNUtils {
 
             Map<Long, String> messages = getRevisionsMessages(revs);
 
-            for(ContentEntry ce : contentEntries)
+            for(ContentEntry ce : contentEntries) {
                 ce.getLastRevision().setMessage(configService.isAppBugTrackerIntegrationEnabled() ?
                         bugTracker.format(messages.get(ce.getLastRevision().getId())) :
                         messages.get(ce.getLastRevision().getId()));
+                ce.getLastRevision().setRawMessage(messages.get(ce.getLastRevision().getId()));
+            }
 
             operationFactory.dispose();
 
@@ -240,6 +244,7 @@ public class SVNUtils {
                 rev.setMessage(configService.isAppBugTrackerIntegrationEnabled() ?
                         bugTracker.format(entry.getMessage()) :
                         entry.getMessage());
+                rev.setRawMessage(entry.getMessage());
 
                 if (searchText == null)
                     revisionList.add(rev);

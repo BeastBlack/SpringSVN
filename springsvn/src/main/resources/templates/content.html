@@ -39,7 +39,7 @@
             <a th:text="${'Ostatnia rewizja: ' + lastRev.id}" th:href="${'/diff?revision=' + lastRev.id}"></a><br>
             <a th:text="${'Autor: ' + lastRev.authorId + ' (' + lastRev.authorName + ')'}"></a><br>
             <a th:text="${'Data: ' + #dates.format(lastRev.date, 'dd.MM.yyyy HH:mm:ss') + ' (' + lastRev.timeAgo + ')'}"></a><br>
-            <a th:text="${'Opis: ' + lastRev.message}"></a><br>
+            <a th:text="${'Opis: ' + lastRev.rawMessage}"></a><br>
         </h6>
     </div>
     <div>

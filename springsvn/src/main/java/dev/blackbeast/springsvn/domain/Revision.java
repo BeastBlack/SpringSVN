@@ -13,6 +13,7 @@ public class Revision {
     private String timeAgo;
     private Long timeFromNow;
     private String message;
+    private String rawMessage;
 
     public void setDate(Date date) {
         this.date = date;
